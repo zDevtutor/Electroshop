@@ -1,9 +1,13 @@
 import React from 'react';
 
+import Header from './components/layout/Header';
+import Products from './components/products/Products';
+
 const App = () => {
 	return (
 		<>
-			<h1>Let's Get Started</h1>
+			<Header />
+			<Products />
 		</>
 	);
 };
