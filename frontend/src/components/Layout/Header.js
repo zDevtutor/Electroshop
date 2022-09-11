@@ -5,6 +5,7 @@ import { ElectricBolt, Person, ShoppingCart } from '@mui/icons-material';
 
 import Search from '../../styles/Search';
 import IconButton from '../../styles/IconButton';
+import StyledLink from '../../styles/StyledLink';
 
 const Header = () => {
 	const theme = useTheme();
@@ -23,12 +24,14 @@ const Header = () => {
 						padding: '10px',
 					},
 				}}>
-				<Typography
-					variant='h6'
-					component='h1'
-					sx={{ display: 'flex', alignItems: 'center' }}>
-					<ElectricBolt /> ElectroShop
-				</Typography>
+				<StyledLink to='/'>
+					<Typography
+						variant='h6'
+						component='h1'
+						sx={{ display: 'flex', alignItems: 'center' }}>
+						<ElectricBolt /> ElectroShop
+					</Typography>
+				</StyledLink>
 
 				<Search />
 

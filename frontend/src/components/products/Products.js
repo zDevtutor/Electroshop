@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import { Container, Grid, Typography } from '@mui/material';
 
@@ -13,8 +14,12 @@ const Products = () => {
 			</Typography>
 			<Grid container spacing={2} columns={{ xs: 2, sm: 8, md: 12 }}>
 				{products.map(product => (
-					<Grid item xs={2} sm={4} md={4}>
-						<Product details={product} />
+					<Grid key={product._id} item xs={2} sm={4} md={4}>
+						<Link
+							style={{ textDecoration: 'none' }}
+							to={`/products/${product._id}`}>
+							<Product details={product} />
+						</Link>
 					</Grid>
 				))}
 			</Grid>

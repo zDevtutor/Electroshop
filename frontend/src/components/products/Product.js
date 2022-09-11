@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardMedia, CardContent, Typography, Box } from '@mui/material';
+import { CardMedia, CardContent, Typography, Box } from '@mui/material';
 
 import Rating from './Rating';
 import StyledCard from '../../styles/StyledCard';
