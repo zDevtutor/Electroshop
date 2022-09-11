@@ -11,10 +11,13 @@
 	"author": "Mostafa Sayed",
 	"license": "ISC",
 	"dependencies": {
+		"bcryptjs": "^2.4.3",
 		"dotenv": "^16.0.2",
-		"express": "^4.18.1"
+		"express": "^4.18.1",
+		"mongoose": "^6.6.0"
 	},
 	"devDependencies": {
+		"colors": "^1.4.0",
 		"nodemon": "^2.0.19"
 	}
 }
