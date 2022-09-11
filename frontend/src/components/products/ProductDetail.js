@@ -7,18 +7,24 @@ import {
 	useTheme,
 	Button,
 } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
-import products from '../../data/products';
 import StyledLink from '../../styles/StyledLink';
 import Rating from './Rating';
 
 const ProductDetail = () => {
 	const theme = useTheme();
 	const { productId } = useParams();
+	const [product, setProduct] = useState({});
 
-	const product = products.find(product => product._id === productId);
+	useEffect(() => {
+		axios
+			.get(`/api/products/${productId}`)
+			.then(res => setProduct(res.data))
+			.catch(err => console.log(err));
+	});
 
 	return (
 		<Container maxWidth='md' sx={{ margin: '50px auto' }}>

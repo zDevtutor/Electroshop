@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 import { Container, Grid, Typography } from '@mui/material';
 
-import products from '../../data/products';
+// import products from '../../data/products';
 import Product from './Product';
 
 const Products = () => {
+	const [products, setProducts] = useState([]);
+
+	useEffect(() => {
+		axios
+			.get('/api/products')
+			.then(res => setProducts(res.data))
+			.catch(err => console.log(err));
+	}, []);
+
 	return (
 		<Container maxWidth='md' sx={{ margin: '50px auto' }}>
 			<Typography variant='h2' component='h2' fontSize={24} mb={2}>
