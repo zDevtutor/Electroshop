@@ -1,13 +1,11 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const colors = require('colors');
-const connectDB = require('./config/db');
+const mongoose = require('mongoose');
 const productsRoute = require('./routes/products');
 const { errorHandler, notFound } = require('./middleware/error');
 
 dotenv.config();
-
-connectDB();
 
 const app = express();
 
@@ -18,10 +16,14 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(
-	PORT,
-	console.log(
-		`Server is running on port ${PORT} in ${process.env.NODE_DEV} mode`.yellow
-			.underline.bold
-	)
-);
+mongoose
+	.connect(process.env.MONGO_URI)
+	.then(() => {
+		app.listen(
+			PORT,
+			console.log(`Server Is Running On Port ${PORT}`.yellow.bold)
+		);
+	})
+	.catch(err => {
+		console.log(`${err}`.red.bold);
+	});
