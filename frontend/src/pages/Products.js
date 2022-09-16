@@ -11,8 +11,8 @@ import {
 	Alert,
 } from '@mui/material';
 
-import Product from './Product';
-import { fetchProducts, selectAllProducts } from '../../store/productsSlice';
+import Product from '../components/products/Product';
+import { fetchProducts, selectAllProducts } from '../store/productsSlice';
 
 const Products = () => {
 	const { products, loading, error } = useSelector(selectAllProducts);
@@ -23,7 +23,7 @@ const Products = () => {
 	}, [dispatch]);
 
 	return (
-		<Container maxWidth='md' sx={{ margin: '50px auto' }}>
+		<Container maxWidth='md' sx={{ margin: '50px auto', minHeight: '100vh' }}>
 			<Typography variant='h2' component='h2' fontSize={24} mb={2}>
 				Latest Products:{' '}
 			</Typography>
