@@ -1,6 +1,6 @@
 const dotenv = require('dotenv');
+const mongoose = require('mongoose');
 const colors = require('colors');
-const connectDB = require('./config/db');
 const User = require('./models/User');
 const Product = require('./models/Product');
 const Order = require('./models/Order');
@@ -9,7 +9,14 @@ const products = require('./data/products');
 
 dotenv.config();
 
-connectDB();
+mongoose
+	.connect(process.env.MONGO_URI)
+	.then(() => {
+		console.log('MongoDB Connected'.cyan.bold.underline);
+	})
+	.catch(err => {
+		console.log(`${err}`.red.bold);
+	});
 
 const importData = async () => {
 	try {
