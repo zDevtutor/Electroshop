@@ -24,7 +24,12 @@ const Products = () => {
 
 	return (
 		<Container maxWidth='md' sx={{ margin: '50px auto', minHeight: '100vh' }}>
-			<Typography variant='h2' component='h2' fontSize={24} mb={2}>
+			<Typography
+				variant='h2'
+				component='h2'
+				fontSize={24}
+				fontWeight={700}
+				mb={2}>
 				Latest Products:{' '}
 			</Typography>
 			{loading && !error ? (

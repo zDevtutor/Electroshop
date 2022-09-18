@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
 	Container,
 	Typography,
@@ -9,10 +9,6 @@ import {
 	Button,
 	Alert,
 	CircularProgress,
-	FormControl,
-	InputLabel,
-	MenuItem,
-	Select,
 } from '@mui/material';
 
 import StyledLink from '../styles/StyledLink';
@@ -20,6 +16,7 @@ import Rating from '../components/products/Rating';
 import { fetchProduct, selectProduct } from '../store/productSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
+import ProductQty from '../components/cart/ProductQty';
 
 const ProductDetail = () => {
 	const theme = useTheme();
@@ -27,15 +24,11 @@ const ProductDetail = () => {
 	const navigate = useNavigate();
 	const { product, loading, error } = useSelector(selectProduct);
 	const dispatch = useDispatch();
-	const [qty, setQty] = useState('');
+	const [qty, setQty] = useState(1);
 
 	useEffect(() => {
 		dispatch(fetchProduct(productId));
 	}, [dispatch, productId]);
-
-	const qtyChangeHandler = e => {
-		setQty(e.target.value);
-	};
 
 	const addToCartHandler = e => {
 		navigate(`/cart/${productId}?qty=${qty}`);
@@ -43,8 +36,13 @@ const ProductDetail = () => {
 
 	return (
 		<Container maxWidth='md' sx={{ margin: '50px auto', minHeight: '65vh' }}>
-			<StyledLink to='/'>
-				<Typography variant='h5' component='h5' fontSize={16} mb={2}>
+			<StyledLink to='/' textDecoration='underline'>
+				<Typography
+					variant='h5'
+					component='h5'
+					fontSize={16}
+					fontWeight={700}
+					mb={2}>
 					Go Back
 				</Typography>
 			</StyledLink>
@@ -160,35 +158,11 @@ const ProductDetail = () => {
 								{product.countInStock ? 'In Stock' : 'Not Avalible'}
 							</Typography>
 						</Box>
-						<Box
-							sx={{
-								display: 'flex',
-								alignItems: 'center',
-								justifyContent: 'space-between',
-								borderBottom: '1px solid #ccc',
-								paddingBottom: '5px',
-								marginBottom: '5px',
-							}}>
-							<Typography fontWeight={700} variant='span' component='span'>
-								Qty:
-							</Typography>
-							<FormControl sx={{ minWidth: '70%' }} size='small'>
-								<InputLabel id='qty'>Qty</InputLabel>
-								<Select
-									labelId='qty'
-									id='qty'
-									value={qty}
-									label='Qty'
-									onChange={qtyChangeHandler}>
-									{[...Array(product.countInStock).keys()].map(x => (
-										<MenuItem key={x} value={x}>
-											{x}
-										</MenuItem>
-									))}
-								</Select>
-							</FormControl>
-						</Box>
+						{product.countInStock !== 0 && (
+							<ProductQty product={product} qty={qty} setQty={setQty} />
+						)}
 						<Button
+							disabled={!product.countInStock}
 							onClick={addToCartHandler}
 							variant='contained'
 							sx={{ marginTop: '20px' }}>

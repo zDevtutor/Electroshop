@@ -12,7 +12,8 @@ const App = () => {
 		<>
 			<Header />
 			<Routes>
-				<Route exact path='/' element={<Products />} />
+				<Route path='/' element={<Products />} />
+				<Route path='/products' element={<Products />} />
 				<Route path='/products/:productId' element={<ProductDetail />} />
 				<Route path='/cart/*' element={<Cart />} />
 			</Routes>

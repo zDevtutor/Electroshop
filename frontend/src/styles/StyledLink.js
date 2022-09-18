@@ -3,7 +3,12 @@ import { Link } from 'react-router-dom';
 
 const StyledLink = props => {
 	return (
-		<Link {...props} style={{ textDecoration: 'none', color: 'inherit' }}>
+		<Link
+			{...props}
+			style={{
+				textDecoration: `${props.textDecoration || 'none'}`,
+				color: 'inherit',
+			}}>
 			{props.children}
 		</Link>
 	);

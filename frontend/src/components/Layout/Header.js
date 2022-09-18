@@ -36,7 +36,9 @@ const Header = () => {
 				<Search />
 
 				<Stack direction='row' spacing={2}>
-					<IconButton startIcon={<ShoppingCart />}>Cart</IconButton>
+					<IconButton startIcon={<ShoppingCart />}>
+						<StyledLink to='/cart/'>Cart</StyledLink>
+					</IconButton>
 					<IconButton startIcon={<Person />}>Login</IconButton>
 				</Stack>
 			</Toolbar>
