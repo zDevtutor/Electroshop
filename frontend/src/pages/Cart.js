@@ -62,8 +62,8 @@ const Cart = () => {
 				}}>
 				<Grid container spacing={2}>
 					{cartItems.length === 0 ? (
-						<Grid item xs={9}>
-							<Alert severity='info'>No Items in cart</Alert>
+						<Grid sx={{ marginTop: '10px' }} item xs={9}>
+							<Alert severity='info'>Your Cart Is Empty</Alert>
 						</Grid>
 					) : (
 						<Grid item xs={9}>
@@ -104,6 +104,7 @@ const Cart = () => {
 									.toFixed(2)}
 							</Typography>
 							<Button
+								disabled={cartItems.length === 0}
 								onClick={proceedToCheckoutHandler}
 								variant='contained'
 								size='small'
