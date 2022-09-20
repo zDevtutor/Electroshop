@@ -44,6 +44,7 @@ const cartSlice = createSlice({
 		},
 		[addToCart.fulfilled]: (state, action) => {
 			state.loading = false;
+			state.error = null;
 
 			const existingItem = state.cartItems.find(
 				item => item.product === action.payload.product
