@@ -7,7 +7,9 @@ const { generateToken } = require('../utils/generateToken');
 // @route   /api/auth/login
 // @access  Public
 exports.login = asyncHandler(async (req, res) => {
-	const { email, password } = req.body;
+	let { email, password } = req.body;
+
+	email = email.toLowerCase();
 
 	const user = await User.findOne({ email });
 
@@ -34,7 +36,10 @@ exports.login = asyncHandler(async (req, res) => {
 // @route   /api/auth/register
 // @access  Public
 exports.register = asyncHandler(async (req, res) => {
-	const { name, email, password } = req.body;
+	let { name, email, password } = req.body;
+
+	name = name.toLowerCase();
+	email = email.toLowerCase();
 
 	const isUserExist = await User.findOne({ email });
 
