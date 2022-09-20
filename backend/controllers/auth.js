@@ -13,14 +13,9 @@ exports.login = asyncHandler(async (req, res) => {
 
 	const user = await User.findOne({ email });
 
-	if (!user) {
+	if (!user || !(await user.matchPassword(password))) {
 		res.status(400);
-		throw new Error('Email is not valid');
-	}
-
-	if (!(await user.matchPassword(password))) {
-		res.status(400);
-		throw new Error('password is invalid');
+		throw new Error('Invalid Email or Password');
 	}
 
 	res.json({
@@ -48,6 +43,11 @@ exports.register = asyncHandler(async (req, res) => {
 		throw new Error('User Already Exist');
 	}
 
+	if (!password) {
+		res.status(400);
+		throw new Error('Please Enter A Password');
+	}
+
 	const salt = await bcrypt.genSalt(10);
 	const hashedPassword = await bcrypt.hash(password, salt);
 
@@ -69,6 +69,6 @@ exports.register = asyncHandler(async (req, res) => {
 		});
 	} else {
 		res.status(404);
-		throw new Error('User No Found');
+		throw new Error('User Not Found');
 	}
 });

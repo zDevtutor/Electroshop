@@ -5,8 +5,13 @@ exports.notFound = (req, res, next) => {
 };
 
 exports.errorHandler = (err, req, res, next) => {
+	if (err.name === 'ValidationError') {
+		err.message = Object.values(err.errors)
+			.map(val => val.message)
+			.join(', ');
+	}
+
 	const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-	res.status(statusCode).json({
-		message: err.message,
-	});
+
+	res.status(statusCode).json({ message: err.message });
 };
