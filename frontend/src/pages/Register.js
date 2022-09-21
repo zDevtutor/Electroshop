@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	Avatar,
 	Button,
@@ -17,39 +17,58 @@ import { LockOutlined } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserInfo, register } from '../store/userSlice';
+import { getUserInfo, register, isLoggedIn } from '../store/userSlice';
 
 const Register = () => {
 	const theme = createTheme();
 	const dispatch = useDispatch();
-	const { loading, error } = useSelector(getUserInfo);
+	const { loading, error, userInfo } = useSelector(getUserInfo);
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setpassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [message, setMessage] = useState(null);
+	const [isSubmitted, setIsSubmitted] = useState(false);
 	const navigate = useNavigate();
 
-	const handleSubmit = async event => {
+	const handleSubmit = event => {
 		event.preventDefault();
+
+		setMessage(null);
 
 		if (password !== confirmPassword) {
 			setMessage('Password do not match');
 			return;
 		}
 
-		await dispatch(
+		dispatch(
 			register({
 				name: name.trim(),
 				email: email.trim(),
 				password: password.trim(),
 			})
-		);
-
-		if (!error) {
-			navigate('/');
-		}
+		).then(() => {
+			setIsSubmitted(true);
+		});
 	};
+
+	useEffect(() => {
+		dispatch(isLoggedIn());
+	}, [dispatch]);
+
+	useEffect(() => {
+		if (userInfo) {
+			navigate('/', { replace: true });
+		}
+
+		if (!error && isSubmitted) {
+			setMessage('Account Created Successfully');
+
+			setTimeout(() => {
+				navigate('/login');
+			}, 2000);
+		}
+	}, [userInfo, navigate, error, isSubmitted]);
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -71,7 +90,7 @@ const Register = () => {
 					<Box
 						component='form'
 						onSubmit={handleSubmit}
-						noValidate
+						validate='true'
 						sx={{ mt: 1 }}>
 						{loading && !error && (
 							<Box
@@ -86,7 +105,9 @@ const Register = () => {
 						)}
 
 						{message ? (
-							<Alert severity='error'>{message}</Alert>
+							<Alert severity={!error && isSubmitted ? 'success' : 'error'}>
+								{message}
+							</Alert>
 						) : error ? (
 							<Alert severity='error'>{error}</Alert>
 						) : (

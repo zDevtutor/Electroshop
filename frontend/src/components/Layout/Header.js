@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import {
 	AppBar,
@@ -22,7 +22,7 @@ import IconButton from '../../styles/IconButton';
 import StyledLink from '../../styles/StyledLink';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserInfo, logout } from '../../store/userSlice';
+import { getUserInfo, logout, isLoggedIn } from '../../store/userSlice';
 
 const Header = () => {
 	const theme = useTheme();
@@ -42,6 +42,10 @@ const Header = () => {
 		setAnchorEl(null);
 		dispatch(logout());
 	};
+
+	useEffect(() => {
+		dispatch(isLoggedIn());
+	}, [dispatch]);
 
 	return (
 		<AppBar position='static'>
@@ -68,7 +72,7 @@ const Header = () => {
 
 				<Search />
 
-				{Object.keys(userInfo).length === 0 ? (
+				{!userInfo ? (
 					<Stack direction='row' spacing={2}>
 						<IconButton startIcon={<ShoppingCart />}>
 							<StyledLink to='/cart'>Cart</StyledLink>

@@ -44,7 +44,7 @@ export const register = createAsyncThunk(
 const initialState = {
 	loading: false,
 	error: null,
-	userInfo: {},
+	userInfo: null,
 };
 
 const userSlice = createSlice({
@@ -52,7 +52,12 @@ const userSlice = createSlice({
 	initialState,
 	reducers: {
 		logout(state) {
-			state.userInfo = {};
+			state.userInfo = null;
+			localStorage.removeItem('userInfo');
+		},
+		isLoggedIn(state) {
+			state.userInfo = JSON.parse(localStorage.getItem('userInfo')) || null;
+			state.error = null;
 		},
 	},
 	extraReducers: {
@@ -74,12 +79,9 @@ const userSlice = createSlice({
 		[register.pending]: state => {
 			state.loading = true;
 		},
-		[register.fulfilled]: (state, action) => {
+		[register.fulfilled]: state => {
 			state.loading = false;
 			state.error = null;
-			state.userInfo = action.payload;
-
-			localStorage.setItem('userInfo', JSON.stringify(state.userInfo));
 		},
 		[register.rejected]: (state, action) => {
 			state.loading = false;
@@ -90,6 +92,6 @@ const userSlice = createSlice({
 
 export const getUserInfo = state => state.userInfo;
 
-export const { logout } = userSlice.actions;
+export const { logout, isLoggedIn } = userSlice.actions;
 
 export default userSlice.reducer;

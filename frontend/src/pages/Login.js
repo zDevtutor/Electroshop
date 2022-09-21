@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	Avatar,
 	Button,
@@ -17,25 +17,31 @@ import { LockOutlined } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { login, getUserInfo } from '../store/userSlice';
+import { login, getUserInfo, isLoggedIn } from '../store/userSlice';
 
 const Login = () => {
 	const theme = createTheme();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { loading, error } = useSelector(getUserInfo);
+	const { loading, error, userInfo } = useSelector(getUserInfo);
 	const [email, setEmail] = useState('');
 	const [password, setpassword] = useState('');
 
-	const handleSubmit = async event => {
+	const handleSubmit = event => {
 		event.preventDefault();
 
-		await dispatch(login({ email, password }));
-
-		if (!error) {
-			navigate('/');
-		}
+		dispatch(login({ email, password }));
 	};
+
+	useEffect(() => {
+		dispatch(isLoggedIn());
+	}, [dispatch]);
+
+	useEffect(() => {
+		if (userInfo) {
+			navigate('/', { replace: true });
+		}
+	}, [userInfo, navigate]);
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -57,7 +63,7 @@ const Login = () => {
 					<Box
 						component='form'
 						onSubmit={handleSubmit}
-						noValidate
+						validate='true'
 						sx={{ mt: 1 }}>
 						{loading && !error && (
 							<Box
