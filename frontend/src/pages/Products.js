@@ -45,7 +45,7 @@ const Products = () => {
 			) : error ? (
 				<Alert severity='error'>{error}</Alert>
 			) : (
-				<Grid container spacing={2} columns={{ xs: 2, sm: 8, md: 12 }}>
+				<Grid container spacing={4} columns={{ xs: 2, sm: 8, md: 12 }}>
 					{products.map(product => (
 						<Grid key={product._id} item xs={2} sm={4} md={4}>
 							<Link

@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import {
 	Stack,
 	Box,
@@ -9,28 +8,25 @@ import {
 	MenuItem,
 	IconButton,
 	Tooltip,
+	useTheme,
 } from '@mui/material';
 
 import { Delete as DeleteIcon } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
-import { addToCart, removeFromCart } from '../../store/cartSlice';
+import { removeCartItem, updateCartItem } from '../../store/cartSlice';
 
 const CartItem = ({ item }) => {
-	const [qty, setQty] = useState(item.qty);
+	const theme = useTheme();
 	const dispatch = useDispatch();
 	const productId = item.product;
 
 	const qtyChangeHandler = e => {
-		setQty(+e.target.value);
+		dispatch(updateCartItem({ productId, qty: +e.target.value }));
 	};
 
 	const removeItemFromCartHandler = e => {
-		dispatch(removeFromCart(item));
+		dispatch(removeCartItem(item));
 	};
-
-	useEffect(() => {
-		dispatch(addToCart({ productId, qty }));
-	}, [dispatch, productId, qty]);
 
 	return (
 		<Stack
@@ -41,6 +37,11 @@ const CartItem = ({ item }) => {
 				alignItems: 'center',
 				border: '1px solid #ccc',
 				padding: '10px',
+
+				[theme.breakpoints.down('sm')]: {
+					flexDirection: 'column',
+					textAlign: 'center',
+				},
 			}}>
 			<Box
 				component='img'
@@ -50,20 +51,50 @@ const CartItem = ({ item }) => {
 					width: '20%',
 					height: '20%',
 					borderRadius: '10px',
+
+					[theme.breakpoints.down('sm')]: {
+						width: '100%',
+					},
 				}}
 			/>
-			<Typography variant='h4' component='h4' fontSize={20}>
+			<Typography
+				variant='p'
+				component='p'
+				sx={{
+					fontSize: '20px',
+
+					[theme.breakpoints.down('sm')]: {
+						fontSize: '26px',
+					},
+				}}>
 				{item.name}
 			</Typography>
-			<Typography variant='h4' component='h4' fontSize={20}>
-				${(item.price * qty).toFixed(2)}
+			<Typography
+				variant='p'
+				component='p'
+				sx={{
+					fontSize: '20px',
+
+					[theme.breakpoints.down('sm')]: {
+						fontSize: '26px',
+					},
+				}}>
+				${item.price}
 			</Typography>
-			<FormControl sx={{ minWidth: '15%' }} size='small'>
+			<FormControl
+				sx={{
+					minWidth: '15%',
+
+					[theme.breakpoints.down('sm')]: {
+						minWidth: '50%',
+					},
+				}}
+				size={theme.breakpoints.up('sm') ? 'small' : 'large'}>
 				<InputLabel id='qty'>Qty</InputLabel>
 				<Select
 					labelId='qty'
 					id='qty'
-					value={qty}
+					value={item.qty}
 					label='Qty'
 					onChange={qtyChangeHandler}>
 					{[...Array(item.countInStock).keys()].map(x => (

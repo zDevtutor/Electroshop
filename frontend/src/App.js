@@ -7,21 +7,25 @@ import ProductDetail from './pages/ProductDetail';
 import Footer from './components/layout/Footer';
 import Cart from './pages/Cart';
 import Login from './pages/Login';
-import UserProfile from './pages/UserProfile';
 import Register from './pages/Register';
+import Error404 from './pages/Error404';
+import UserProfile from './pages/UserProfile';
+import Checkout from './pages/Checkout';
 
 const App = () => {
 	return (
 		<>
 			<Header />
 			<Routes>
-				<Route path='/' element={<Products />} />
+				<Route index element={<Products />} />
 				<Route path='/products' element={<Products />} />
 				<Route path='/products/:productId' element={<ProductDetail />} />
 				<Route path='/cart/*' element={<Cart />} />
 				<Route path='/login' element={<Login />} />
 				<Route path='/register' element={<Register />} />
-				<Route path='/profile' element={<UserProfile />} />
+				<Route path='/users/:id' element={<UserProfile />} />
+				<Route path='/checkout' element={<Checkout />} />
+				<Route path='*' element={<Error404 />} />
 			</Routes>
 			<Footer />
 		</>

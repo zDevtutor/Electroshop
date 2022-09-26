@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import {
 	AppBar,
@@ -22,7 +22,7 @@ import IconButton from '../../styles/IconButton';
 import StyledLink from '../../styles/StyledLink';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserInfo, logout, isLoggedIn } from '../../store/userSlice';
+import { getUserInfo, logout } from '../../store/authSlice';
 
 const Header = () => {
 	const theme = useTheme();
@@ -42,10 +42,6 @@ const Header = () => {
 		setAnchorEl(null);
 		dispatch(logout());
 	};
-
-	useEffect(() => {
-		dispatch(isLoggedIn());
-	}, [dispatch]);
 
 	return (
 		<AppBar position='static'>
@@ -72,7 +68,7 @@ const Header = () => {
 
 				<Search />
 
-				{!userInfo ? (
+				{Object.keys(userInfo).length === 0 ? (
 					<Stack direction='row' spacing={2}>
 						<IconButton startIcon={<ShoppingCart />}>
 							<StyledLink to='/cart'>Cart</StyledLink>
@@ -111,13 +107,13 @@ const Header = () => {
 							open={Boolean(anchorEl)}
 							onClose={handleClose}>
 							<MenuItem onClick={handleClose}>
-								<StyledLink to='/profile'>Profile</StyledLink>
+								<StyledLink to={`/users/${userInfo._id}`}>Profile</StyledLink>
 							</MenuItem>
 							<MenuItem onClick={handleClose}>
 								<StyledLink to='/cart'>Cart</StyledLink>
 							</MenuItem>
 							<MenuItem onClick={logoutHandler}>
-								<StyledLink to='/'>Logout</StyledLink>
+								<StyledLink to='/login'>Logout</StyledLink>
 							</MenuItem>
 						</Menu>
 					</div>

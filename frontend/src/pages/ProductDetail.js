@@ -158,7 +158,7 @@ const ProductDetail = () => {
 								{product.countInStock ? 'In Stock' : 'Not Avalible'}
 							</Typography>
 						</Box>
-						{product.countInStock !== 0 && (
+						{product.countInStock > 0 && (
 							<ProductQty product={product} qty={qty} setQty={setQty} />
 						)}
 						<Button
