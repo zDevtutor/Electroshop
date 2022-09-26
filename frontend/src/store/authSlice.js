@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const login = createAsyncThunk(
-	'user/login',
+	'auth/login',
 	async ({ email, password }) => {
 		const config = {
 			'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ export const login = createAsyncThunk(
 );
 
 export const register = createAsyncThunk(
-	'user/register',
+	'auth/register',
 	async ({ name, email, password }) => {
 		const config = { 'Content-Type': 'application/json' };
 
@@ -41,23 +41,26 @@ export const register = createAsyncThunk(
 	}
 );
 
+const userInfo = localStorage.getItem('userInfo')
+	? JSON.parse(localStorage.getItem('userInfo'))
+	: {};
+
 const initialState = {
 	loading: false,
 	error: null,
-	userInfo: null,
+	userInfo,
 };
 
-const userSlice = createSlice({
-	name: 'user',
+const authSlice = createSlice({
+	name: 'auth',
 	initialState,
 	reducers: {
 		logout(state) {
-			state.userInfo = null;
+			state.userInfo = {};
 			localStorage.removeItem('userInfo');
 		},
-		isLoggedIn(state) {
-			state.userInfo = JSON.parse(localStorage.getItem('userInfo')) || null;
-			state.error = null;
+		updateUserInfo(state) {
+			state.userInfo = JSON.parse(localStorage.getItem('userInfo'));
 		},
 	},
 	extraReducers: {
@@ -90,8 +93,8 @@ const userSlice = createSlice({
 	},
 });
 
-export const getUserInfo = state => state.userInfo;
+export const getUserInfo = state => state.auth;
 
-export const { logout, isLoggedIn } = userSlice.actions;
+export const { logout, updateUserInfo } = authSlice.actions;
 
-export default userSlice.reducer;
+export default authSlice.reducer;

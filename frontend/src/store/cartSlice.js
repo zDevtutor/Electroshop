@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-export const addToCart = createAsyncThunk(
+export const addCartItem = createAsyncThunk(
 	'cart/addToCart',
 	async ({ productId, qty }) => {
 		try {
@@ -21,16 +21,32 @@ export const addToCart = createAsyncThunk(
 	}
 );
 
-const initialState = { cartItems: [], loading: false, error: null };
+const cartItems = localStorage.getItem('cartItems')
+	? JSON.parse(localStorage.getItem('cartItems'))
+	: [];
+
+const initialState = { cartItems };
 
 const cartSlice = createSlice({
 	name: 'cart',
 	initialState,
 	reducers: {
-		getCartItems(state) {
-			state.cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+		updateCartItem(state, action) {
+			const existingItem = state.cartItems.find(
+				item => item.product === action.payload.productId
+			);
+
+			if (existingItem) {
+				existingItem.qty = action.payload.qty;
+
+				state.cartItems = state.cartItems.map(item =>
+					item.product === existingItem.product ? existingItem : item
+				);
+
+				localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
+			}
 		},
-		removeFromCart(state, action) {
+		removeCartItem(state, action) {
 			state.cartItems = state.cartItems.filter(
 				item => item.product !== action.payload.product
 			);
@@ -39,13 +55,7 @@ const cartSlice = createSlice({
 		},
 	},
 	extraReducers: {
-		[addToCart.pending]: state => {
-			state.loading = true;
-		},
-		[addToCart.fulfilled]: (state, action) => {
-			state.loading = false;
-			state.error = null;
-
+		[addCartItem.fulfilled]: (state, action) => {
 			const existingItem = state.cartItems.find(
 				item => item.product === action.payload.product
 			);
@@ -60,14 +70,10 @@ const cartSlice = createSlice({
 
 			localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
 		},
-		[addToCart.rejected]: (state, action) => {
-			state.loading = false;
-			state.error = action.error.message;
-		},
 	},
 });
 
-export const { getCartItems, removeFromCart } = cartSlice.actions;
+export const { updateCartItem, removeCartItem } = cartSlice.actions;
 
 export const selectCart = state => state.cart;
 
