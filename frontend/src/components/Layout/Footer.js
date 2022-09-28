@@ -10,7 +10,7 @@ const Footer = () => {
 				alignItems: 'center',
 				justifyContent: 'center',
 			}}>
-			<Typography variant='p' component='p'>
+			<Typography variant='p' component='p' textAlign='center'>
 				Copyright &copy; ElectroShop | Developed By zDevtutor
 			</Typography>
 		</Stack>

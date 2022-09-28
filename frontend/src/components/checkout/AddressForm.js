@@ -1,19 +1,54 @@
-import React from 'react';
-import {
-	Grid,
-	Typography,
-	TextField,
-	FormControlLabel,
-	Checkbox,
-} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Grid, Typography, TextField, Button } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { saveShippingAddress, selectCart } from '../../store/cartSlice';
 
-const AddressForm = () => {
+const AddressForm = props => {
+	const { shippingAddress } = useSelector(selectCart);
+	const [firstName, setFirstName] = useState('');
+	const [lastName, setLastName] = useState('');
+	const [address, setAddress] = useState('');
+	const [city, setCity] = useState('');
+	const [region, setRegion] = useState('');
+	const [postalCode, setPostalCode] = useState('');
+	const [country, setCountry] = useState('');
+	const disptach = useDispatch();
+
+	const submitFormHandler = event => {
+		event.preventDefault();
+		props.onNext();
+
+		disptach(
+			saveShippingAddress({
+				firstName,
+				lastName,
+				address,
+				city,
+				region,
+				postalCode,
+				country,
+			})
+		);
+	};
+
+	useEffect(() => {
+		if (Object.keys(shippingAddress).length > 0) {
+			setFirstName(shippingAddress.firstName);
+			setLastName(shippingAddress.lastName);
+			setAddress(shippingAddress.address);
+			setCity(shippingAddress.city);
+			setRegion(shippingAddress.region);
+			setPostalCode(shippingAddress.postalCode);
+			setCountry(shippingAddress.country);
+		}
+	}, [shippingAddress]);
+
 	return (
 		<>
 			<Typography variant='h6' gutterBottom>
 				Shipping address
 			</Typography>
-			<Grid container spacing={3}>
+			<Grid container spacing={3} component='form' onSubmit={submitFormHandler}>
 				<Grid item xs={12} sm={6}>
 					<TextField
 						required
@@ -23,6 +58,8 @@ const AddressForm = () => {
 						fullWidth
 						autoComplete='given-name'
 						variant='standard'
+						value={firstName}
+						onChange={e => setFirstName(e.target.value)}
 					/>
 				</Grid>
 				<Grid item xs={12} sm={6}>
@@ -34,29 +71,24 @@ const AddressForm = () => {
 						fullWidth
 						autoComplete='family-name'
 						variant='standard'
+						value={lastName}
+						onChange={e => setLastName(e.target.value)}
 					/>
 				</Grid>
 				<Grid item xs={12}>
 					<TextField
 						required
-						id='address1'
-						name='address1'
-						label='Address line 1'
+						id='address'
+						name='address'
+						label='Address'
 						fullWidth
-						autoComplete='shipping address-line1'
+						autoComplete='shipping address'
 						variant='standard'
+						value={address}
+						onChange={e => setAddress(e.target.value)}
 					/>
 				</Grid>
-				<Grid item xs={12}>
-					<TextField
-						id='address2'
-						name='address2'
-						label='Address line 2'
-						fullWidth
-						autoComplete='shipping address-line2'
-						variant='standard'
-					/>
-				</Grid>
+
 				<Grid item xs={12} sm={6}>
 					<TextField
 						required
@@ -64,8 +96,10 @@ const AddressForm = () => {
 						name='city'
 						label='City'
 						fullWidth
-						autoComplete='shipping address-level2'
+						autoComplete='shipping city'
 						variant='standard'
+						value={city}
+						onChange={e => setCity(e.target.value)}
 					/>
 				</Grid>
 				<Grid item xs={12} sm={6}>
@@ -75,6 +109,8 @@ const AddressForm = () => {
 						label='State/Province/Region'
 						fullWidth
 						variant='standard'
+						value={region}
+						onChange={e => setRegion(e.target.value)}
 					/>
 				</Grid>
 				<Grid item xs={12} sm={6}>
@@ -86,6 +122,8 @@ const AddressForm = () => {
 						fullWidth
 						autoComplete='shipping postal-code'
 						variant='standard'
+						value={postalCode}
+						onChange={e => setPostalCode(e.target.value)}
 					/>
 				</Grid>
 				<Grid item xs={12} sm={6}>
@@ -97,15 +135,14 @@ const AddressForm = () => {
 						fullWidth
 						autoComplete='shipping country'
 						variant='standard'
+						value={country}
+						onChange={e => setCountry(e.target.value)}
 					/>
 				</Grid>
-				<Grid item xs={12}>
-					<FormControlLabel
-						control={
-							<Checkbox color='secondary' name='saveAddress' value='yes' />
-						}
-						label='Use this address for payment details'
-					/>
+				<Grid item xs={12} textAlign='right'>
+					<Button type='submit' variant='contained' sx={{ mt: 3, mb: 2 }}>
+						Next
+					</Button>
 				</Grid>
 			</Grid>
 		</>

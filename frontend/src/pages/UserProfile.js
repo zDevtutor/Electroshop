@@ -54,11 +54,11 @@ const UserProfile = () => {
 	useEffect(() => {
 		if (Object.keys(userInfo).length === 0) {
 			navigate('/', { replace: true });
-		} else if (!user.name || !user.email) {
-			dispatch(getProfile());
 		} else {
-			setName(user.name);
-			setEmail(user.email);
+			dispatch(getProfile()).then(() => {
+				setName(user.name);
+				setEmail(user.email);
+			});
 		}
 	}, [userInfo, navigate, dispatch, user.name, user.email]);
 
