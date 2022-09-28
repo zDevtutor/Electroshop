@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const productsRoute = require('./routes/products');
 const authRoute = require('./routes/auth');
 const usersRoute = require('./routes/users');
+const orderRoute = require('./routes/orders');
 const { errorHandler, notFound } = require('./middleware/error');
 
 dotenv.config();
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use('/api/products', productsRoute);
 app.use('/api/auth', authRoute);
 app.use('/api/users', usersRoute);
+app.use('/api/orders', orderRoute);
 
 app.use(notFound);
 app.use(errorHandler);
