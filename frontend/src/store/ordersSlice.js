@@ -48,8 +48,33 @@ export const addNewOrder = createAsyncThunk(
 	}
 );
 
+export const getOrderDetails = createAsyncThunk(
+	'order/getOrderDetails',
+	async (id, { getState }) => {
+		try {
+			const {
+				auth: {
+					userInfo: { token },
+				},
+			} = getState();
+
+			const config = {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			};
+
+			const { data } = await axios.get(`/api/orders/${id}`, config);
+
+			return data;
+		} catch (error) {
+			throw error.response.data.message || error.message;
+		}
+	}
+);
+
 const initialState = {
-	order: {},
+	order: { shippingAddress: {}, orderItems: [], user: {} },
 	loading: false,
 	error: null,
 };
@@ -64,10 +89,22 @@ const ordersSlice = createSlice({
 		},
 		[addNewOrder.fulfilled]: (state, action) => {
 			state.loading = false;
-			state.order = action.payload;
 			state.error = null;
+			state.order = action.payload;
 		},
 		[addNewOrder.rejected]: (state, action) => {
+			state.error = action.error.message;
+			state.loading = false;
+		},
+		[getOrderDetails.pending]: state => {
+			state.loading = true;
+		},
+		[getOrderDetails.fulfilled]: (state, action) => {
+			state.loading = false;
+			state.error = null;
+			state.order = action.payload;
+		},
+		[getOrderDetails.rejected]: (state, action) => {
 			state.error = action.error.message;
 			state.loading = false;
 		},
