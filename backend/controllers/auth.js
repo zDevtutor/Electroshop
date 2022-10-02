@@ -4,7 +4,7 @@ const User = require('../models/User');
 const { generateToken } = require('../utils/generateToken');
 
 // @desc    Login
-// @route   /api/auth/login
+// @route   POST /api/auth/login
 // @access  Public
 exports.login = asyncHandler(async (req, res) => {
 	let { email, password } = req.body;
@@ -28,7 +28,7 @@ exports.login = asyncHandler(async (req, res) => {
 });
 
 // @desc    Register
-// @route   /api/auth/register
+// @route   POST /api/auth/register
 // @access  Public
 exports.register = asyncHandler(async (req, res) => {
 	let { name, email, password } = req.body;

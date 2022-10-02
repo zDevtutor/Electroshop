@@ -1,9 +1,9 @@
 const asyncHandler = require('express-async-handler');
 const Order = require('../models/Order');
 
-// @desc    Fetch Single Product
-// @route   /api/products/:id
-// @access  Public
+// @desc    Add New Order
+// @route   POST /api/orders/:id
+// @access  Private
 exports.addOrder = asyncHandler(async (req, res) => {
 	const {
 		orderItems,

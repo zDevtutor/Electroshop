@@ -3,7 +3,7 @@ const User = require('../models/User');
 const { generateToken } = require('../utils/generateToken');
 
 // @desc    Get User Profile
-// @route   /api/users/:id
+// @route   GET /api/users/:id
 // @access  Private
 exports.getUserProfile = asyncHandler(async (req, res) => {
 	const user = req.user;
@@ -17,7 +17,7 @@ exports.getUserProfile = asyncHandler(async (req, res) => {
 });
 
 // @desc    Update User Profile
-// @route   /api/users/:id
+// @route   PUT /api/users/:id
 // @access  Private
 exports.updateUserProfile = asyncHandler(async (req, res) => {
 	let { name, email, password } = req.body;
