@@ -2,7 +2,7 @@ const asyncHandler = require('express-async-handler');
 const Order = require('../models/Order');
 
 // @desc    Add New Order
-// @route   POST /api/orders/:id
+// @route   POST /api/orders/
 // @access  Private
 exports.addOrder = asyncHandler(async (req, res) => {
 	const {
@@ -32,4 +32,21 @@ exports.addOrder = asyncHandler(async (req, res) => {
 
 		res.status(201).json(createdOrder);
 	}
+});
+
+// @desc    Get Order By Id
+// @route   GET /api/orders/:id
+// @access  Private
+exports.getOrder = asyncHandler(async (req, res) => {
+	const order = await Order.findById(req.params.id).populate(
+		'user',
+		'name email'
+	);
+
+	if (!order) {
+		res.status(404);
+		throw new Error('Order Not Found');
+	}
+
+	res.status(200).json(order);
 });
