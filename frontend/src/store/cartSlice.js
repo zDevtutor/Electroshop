@@ -77,6 +77,11 @@ const cartSlice = createSlice({
 				JSON.stringify(state.paymentMethod)
 			);
 		},
+		resetCart(state) {
+			state.cartItems = [];
+
+			localStorage.removeItem('cartItems');
+		},
 	},
 	extraReducers: {
 		[addCartItem.fulfilled]: (state, action) => {
@@ -102,6 +107,7 @@ export const {
 	removeCartItem,
 	saveShippingAddress,
 	savePaymentMethod,
+	resetCart,
 } = cartSlice.actions;
 
 export const selectCart = state => state.cart;

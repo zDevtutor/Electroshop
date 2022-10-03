@@ -24,8 +24,8 @@ const UserProfile = () => {
 	const { user, error, loading } = useSelector(getUserProfile);
 	const { userInfo } = useSelector(getUserInfo);
 	const dispatch = useDispatch();
-	const [name, setName] = useState('');
-	const [email, setEmail] = useState('');
+	const [name, setName] = useState(user.name);
+	const [email, setEmail] = useState(user.email);
 	const [password, setpassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [message, setMessage] = useState('');

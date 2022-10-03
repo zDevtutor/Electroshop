@@ -73,6 +73,36 @@ export const getOrderDetails = createAsyncThunk(
 	}
 );
 
+export const payOrder = createAsyncThunk(
+	'order/payOrder',
+	async ({ id, paymentResult }, { getState }) => {
+		try {
+			const {
+				auth: {
+					userInfo: { token },
+				},
+			} = getState();
+
+			const config = {
+				'Content-Type': 'application/json',
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			};
+
+			const { data } = await axios.patch(
+				`/api/orders/${id}`,
+				paymentResult,
+				config
+			);
+
+			return data;
+		} catch (error) {
+			throw error.response.data.message || error.message;
+		}
+	}
+);
+
 const initialState = {
 	order: { shippingAddress: {}, orderItems: [], user: {} },
 	loading: false,
@@ -105,6 +135,18 @@ const ordersSlice = createSlice({
 			state.order = action.payload;
 		},
 		[getOrderDetails.rejected]: (state, action) => {
+			state.error = action.error.message;
+			state.loading = false;
+		},
+		[payOrder.pending]: state => {
+			state.loading = true;
+		},
+		[payOrder.fulfilled]: (state, action) => {
+			state.loading = false;
+			state.error = null;
+			state.order = action.payload;
+		},
+		[payOrder.rejected]: (state, action) => {
 			state.error = action.error.message;
 			state.loading = false;
 		},
