@@ -56,3 +56,12 @@ exports.updateUserProfile = asyncHandler(async (req, res) => {
 		token: generateToken(user._id),
 	});
 });
+
+// @desc    Get all users
+// @route   GET /api/users/
+// @access  Private/admin
+exports.getAllUsers = asyncHandler(async (req, res) => {
+	const users = await User.find({});
+
+	res.json(users);
+});
