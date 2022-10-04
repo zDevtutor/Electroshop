@@ -12,6 +12,7 @@ import Error404 from './pages/Error404';
 import UserProfile from './pages/UserProfile';
 import Checkout from './pages/Checkout';
 import OrderDatails from './pages/OrderDetails';
+import Users from './pages/Users';
 
 const App = () => {
 	return (
@@ -25,6 +26,7 @@ const App = () => {
 				<Route path='/login' element={<Login />} />
 				<Route path='/register' element={<Register />} />
 				<Route path='/users/:id' element={<UserProfile />} />
+				<Route path='/admin/users' element={<Users />} />
 				<Route path='/checkout' element={<Checkout />} />
 				<Route path='/orders/:orderId' element={<OrderDatails />} />
 				<Route path='*' element={<Error404 />} />

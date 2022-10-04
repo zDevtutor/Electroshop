@@ -106,6 +106,19 @@ const Header = () => {
 							}}
 							open={Boolean(anchorEl)}
 							onClose={handleClose}>
+							{userInfo.isAdmin && (
+								<div>
+									<MenuItem onClick={handleClose}>
+										<StyledLink to={`/admin/users`}>Users</StyledLink>
+									</MenuItem>
+									<MenuItem onClick={handleClose}>
+										<StyledLink to='/admin/products'>Products</StyledLink>
+									</MenuItem>
+									<MenuItem onClick={handleClose}>
+										<StyledLink to='/admin/orders'>Orders</StyledLink>
+									</MenuItem>
+								</div>
+							)}
 							<MenuItem onClick={handleClose}>
 								<StyledLink to={`/users/${userInfo._id}`}>Profile</StyledLink>
 							</MenuItem>
