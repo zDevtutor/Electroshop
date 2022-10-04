@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCart } from '../../store/cartSlice';
-import { addNewOrder, selectOrder } from '../../store/ordersSlice';
+import { addNewOrder, selectOrder } from '../../store/orderSlice';
 import StyledLink from '../../styles/StyledLink';
 import { useNavigate } from 'react-router-dom';
 

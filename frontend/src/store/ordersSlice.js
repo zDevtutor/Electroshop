@@ -1,56 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export const addNewOrder = createAsyncThunk(
-	'order/addOrder',
-	async (
-		{
-			orderItems,
-			shippingAddress,
-			paymentMethod,
-			shippingPrice,
-			taxPrice,
-			totalPrice,
-		},
-		{ getState }
-	) => {
-		try {
-			const {
-				auth: {
-					userInfo: { token },
-				},
-			} = getState();
-
-			const config = {
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${token}`,
-				},
-			};
-
-			const { data } = await axios.post(
-				'/api/orders',
-				{
-					orderItems,
-					shippingAddress,
-					paymentMethod,
-					shippingPrice,
-					taxPrice,
-					totalPrice,
-				},
-				config
-			);
-
-			return data;
-		} catch (error) {
-			throw error.response.data.message || error.message;
-		}
-	}
-);
-
-export const getOrderDetails = createAsyncThunk(
-	'order/getOrderDetails',
-	async (id, { getState }) => {
+export const getLoggedInOrders = createAsyncThunk(
+	'order/getLoggedInOrders',
+	async (arg, { getState }) => {
 		try {
 			const {
 				auth: {
@@ -64,7 +17,7 @@ export const getOrderDetails = createAsyncThunk(
 				},
 			};
 
-			const { data } = await axios.get(`/api/orders/${id}`, config);
+			const { data } = await axios.get(`/api/orders/myOrders`, config);
 
 			return data;
 		} catch (error) {
@@ -73,86 +26,28 @@ export const getOrderDetails = createAsyncThunk(
 	}
 );
 
-export const payOrder = createAsyncThunk(
-	'order/payOrder',
-	async ({ id, paymentResult }, { getState }) => {
-		try {
-			const {
-				auth: {
-					userInfo: { token },
-				},
-			} = getState();
-
-			const config = {
-				'Content-Type': 'application/json',
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			};
-
-			const { data } = await axios.patch(
-				`/api/orders/${id}`,
-				paymentResult,
-				config
-			);
-
-			return data;
-		} catch (error) {
-			throw error.response.data.message || error.message;
-		}
-	}
-);
-
-const initialState = {
-	order: { shippingAddress: {}, orderItems: [], user: {} },
-	loading: false,
-	error: null,
-};
+const initialState = { orders: [], loading: false, error: null };
 
 const ordersSlice = createSlice({
-	name: 'order',
+	name: 'orders',
 	initialState,
 	reducers: {},
 	extraReducers: {
-		[addNewOrder.pending]: state => {
+		[getLoggedInOrders.pending]: state => {
 			state.loading = true;
 		},
-		[addNewOrder.fulfilled]: (state, action) => {
+		[getLoggedInOrders.fulfilled]: (state, action) => {
 			state.loading = false;
-			state.error = null;
-			state.order = action.payload;
+			state.orders = action.payload;
+			state.error = false;
 		},
-		[addNewOrder.rejected]: (state, action) => {
+		[getLoggedInOrders.rejected]: (state, action) => {
+			state.loading = false;
 			state.error = action.error.message;
-			state.loading = false;
-		},
-		[getOrderDetails.pending]: state => {
-			state.loading = true;
-		},
-		[getOrderDetails.fulfilled]: (state, action) => {
-			state.loading = false;
-			state.error = null;
-			state.order = action.payload;
-		},
-		[getOrderDetails.rejected]: (state, action) => {
-			state.error = action.error.message;
-			state.loading = false;
-		},
-		[payOrder.pending]: state => {
-			state.loading = true;
-		},
-		[payOrder.fulfilled]: (state, action) => {
-			state.loading = false;
-			state.error = null;
-			state.order = action.payload;
-		},
-		[payOrder.rejected]: (state, action) => {
-			state.error = action.error.message;
-			state.loading = false;
 		},
 	},
 });
 
-export const selectOrder = state => state.order;
+export const selectOrders = state => state.orders;
 
 export default ordersSlice.reducer;

@@ -14,7 +14,7 @@ import {
 	ListItemAvatar,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { getOrderDetails, payOrder, selectOrder } from '../store/ordersSlice';
+import { getOrderDetails, payOrder, selectOrder } from '../store/orderSlice';
 import { useParams } from 'react-router-dom';
 import PaypalCheckoutButton from '../components/paypal/PaypalCheckoutButton';
 import { resetCart } from '../store/cartSlice';

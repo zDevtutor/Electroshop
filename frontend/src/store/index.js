@@ -4,6 +4,7 @@ import productSlice from './productSlice';
 import productsSlice from './productsSlice';
 import authSlice from './authSlice';
 import profileSlice from './profileSlice';
+import orderSlice from './orderSlice';
 import ordersSlice from './ordersSlice';
 
 const store = configureStore({
@@ -13,7 +14,8 @@ const store = configureStore({
 		cart: cartSlice,
 		auth: authSlice,
 		profile: profileSlice,
-		order: ordersSlice,
+		order: orderSlice,
+		orders: ordersSlice,
 	},
 });
 

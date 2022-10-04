@@ -19,13 +19,14 @@ import {
 	CircularProgress,
 } from '@mui/material';
 import { getUserInfo, updateUserInfo } from '../store/authSlice';
+import MyOrders from '../components/orders/MyOrders';
 
 const UserProfile = () => {
 	const { user, error, loading } = useSelector(getUserProfile);
 	const { userInfo } = useSelector(getUserInfo);
 	const dispatch = useDispatch();
-	const [name, setName] = useState(user.name);
-	const [email, setEmail] = useState(user.email);
+	const [name, setName] = useState('');
+	const [email, setEmail] = useState('');
 	const [password, setpassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [message, setMessage] = useState('');
@@ -63,7 +64,7 @@ const UserProfile = () => {
 	}, [userInfo, navigate, dispatch, user.name, user.email]);
 
 	return (
-		<Container maxWidth='md' sx={{ margin: '50px auto', minHeight: '65vh' }}>
+		<Container maxWidth='lg' sx={{ margin: '50px auto', minHeight: '65vh' }}>
 			{loading && !error ? (
 				<Box
 					sx={{
@@ -163,6 +164,7 @@ const UserProfile = () => {
 							mb={2}>
 							My Orders
 						</Typography>
+						<MyOrders />
 					</Grid>
 				</Grid>
 			)}
