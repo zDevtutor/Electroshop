@@ -13,6 +13,7 @@ import UserProfile from './pages/UserProfile';
 import Checkout from './pages/Checkout';
 import OrderDatails from './pages/OrderDetails';
 import Users from './pages/Users';
+import AdminProducts from './pages/AdminProducts';
 
 const App = () => {
 	return (
@@ -22,6 +23,7 @@ const App = () => {
 				<Route index element={<Products />} />
 				<Route path='/products' element={<Products />} />
 				<Route path='/products/:productId' element={<ProductDetail />} />
+				<Route path='/admin/products' element={<AdminProducts />} />
 				<Route path='/cart/*' element={<Cart />} />
 				<Route path='/login' element={<Login />} />
 				<Route path='/register' element={<Register />} />
