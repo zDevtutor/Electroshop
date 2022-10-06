@@ -34,3 +34,37 @@ exports.deleteProduct = asyncHandler(async (req, res) => {
 
 	res.status(200).json({ message: 'Product deleted successfully' });
 });
+
+// @desc    Add New Product
+// @route   POST /api/products/
+// @access  Private/Admin
+exports.addProduct = asyncHandler(async (req, res) => {
+	const product = new Product();
+
+	const createdProduct = await product.save();
+
+	res.status(201).json(createdProduct);
+});
+
+// @desc    Update Product
+// @route   PUT /api/products/:id
+// @access  Private/Admin
+exports.updateProduct = asyncHandler(async (req, res) => {
+	const product = await Product.findById(req.params.id);
+
+	if (!product) {
+		res.status(404);
+		throw new Error('Product is not found');
+	}
+
+	product.name = req.body.name || 'Sample Product';
+	product.image = req.body.image || '/images/sample.jpg';
+	product.description = req.body.description || 'Product Description';
+	product.brand = req.body.brand || 'Product Brand';
+	product.price = req.body.price || 0;
+	product.countInStock = req.body.countInStock || 0;
+
+	const updatedProduct = await product.save();
+
+	res.status(200).json(updatedProduct);
+});
