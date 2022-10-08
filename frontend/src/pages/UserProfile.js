@@ -25,9 +25,9 @@ const UserProfile = () => {
 	const { user, error, loading } = useSelector(getUserProfile);
 	const { userInfo } = useSelector(getUserInfo);
 	const dispatch = useDispatch();
-	const [name, setName] = useState('');
-	const [email, setEmail] = useState('');
-	const [password, setpassword] = useState('');
+	const [name, setName] = useState(user.name);
+	const [email, setEmail] = useState(user.email);
+	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [message, setMessage] = useState('');
 	const [isSubmitted, setIsSubmitted] = useState(false);
@@ -132,7 +132,7 @@ const UserProfile = () => {
 								id='password'
 								autoComplete='current-password'
 								value={password}
-								onChange={e => setpassword(e.target.value)}
+								onChange={e => setPassword(e.target.value)}
 							/>
 							<TextField
 								margin='normal'

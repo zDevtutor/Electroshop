@@ -13,7 +13,7 @@ import {
 
 import StyledLink from '../styles/StyledLink';
 import Rating from '../components/products/Rating';
-import { fetchProduct, selectProduct } from '../store/productSlice';
+import { getProduct, selectProduct } from '../store/productSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import ProductQty from '../components/cart/ProductQty';
@@ -27,7 +27,7 @@ const ProductDetail = () => {
 	const [qty, setQty] = useState(1);
 
 	useEffect(() => {
-		dispatch(fetchProduct(productId));
+		dispatch(getProduct(productId));
 	}, [dispatch, productId]);
 
 	const addToCartHandler = e => {

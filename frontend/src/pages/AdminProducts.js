@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import {
 	Container,
@@ -24,13 +24,11 @@ import {
 import { Add, Delete, Edit } from '@mui/icons-material';
 
 import { useDispatch, useSelector } from 'react-redux';
-import {
-	deleteProduct,
-	fetchProducts,
-	selectAllProducts,
-} from '../store/productsSlice';
+import { fetchProducts, selectAllProducts } from '../store/productsSlice';
+
 import { getUserInfo } from '../store/authSlice';
 import { useNavigate } from 'react-router-dom';
+import { addProduct, deleteProduct } from '../store/productSlice';
 
 const headCells = [
 	{
@@ -75,9 +73,9 @@ const AdminProducts = () => {
 	const { products, loading, error } = useSelector(selectAllProducts);
 	const { userInfo } = useSelector(getUserInfo);
 
-	const [page, setPage] = React.useState(0);
-	const [dense, setDense] = React.useState(false);
-	const [rowsPerPage, setRowsPerPage] = React.useState(5);
+	const [page, setPage] = useState(0);
+	const [dense, setDense] = useState(false);
+	const [rowsPerPage, setRowsPerPage] = useState(5);
 
 	const handleChangePage = (event, newPage) => {
 		setPage(newPage);
@@ -96,8 +94,26 @@ const AdminProducts = () => {
 	const emptyRows =
 		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - products.length) : 0;
 
+	const addProductHandler = () => {
+		dispatch(addProduct()).then(data => {
+			navigate(`/admin/products/${data.payload._id}`);
+		});
+	};
+
+	const updateProductHandler = event => {
+		const productId =
+			event.target.parentElement.id ||
+			event.target.id ||
+			event.target.parentElement.parentElement.id;
+
+		navigate(`/admin/products/${productId}`);
+	};
+
 	const deleteProductHandler = event => {
-		const productId = event.target.parentElement.parentElement.id;
+		const productId =
+			event.target.parentElement.id ||
+			event.target.id ||
+			event.target.parentElement.parentElement.id;
 
 		if (window.confirm('Are You Sure?')) {
 			dispatch(deleteProduct(productId)).then(() => {
@@ -125,7 +141,10 @@ const AdminProducts = () => {
 					mb={2}>
 					All Products:
 				</Typography>
-				<Button variant='contained' startIcon={<Add />}>
+				<Button
+					onClick={addProductHandler}
+					variant='contained'
+					startIcon={<Add />}>
 					Add Product
 				</Button>
 			</Stack>
@@ -168,15 +187,17 @@ const AdminProducts = () => {
 													<TableCell align='center'>${product.price}</TableCell>
 													<TableCell align='center'>{product.brand}</TableCell>
 													<TableCell align='center'>
-														<Tooltip title='Edit'>
-															<IconButton>
+														<Tooltip
+															title='Edit'
+															onClick={updateProductHandler}>
+															<IconButton id={product._id}>
 																<Edit color='dark' />
 															</IconButton>
 														</Tooltip>
-														<Tooltip title='Delete'>
-															<IconButton
-																id={product._id}
-																onClick={deleteProductHandler}>
+														<Tooltip
+															title='Delete'
+															onClick={deleteProductHandler}>
+															<IconButton id={product._id}>
 																<Delete color='error' />
 															</IconButton>
 														</Tooltip>

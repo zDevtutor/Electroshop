@@ -13,7 +13,6 @@ export const getProfile = createAsyncThunk(
 
 			const config = {
 				headers: {
-					'Content-Type': 'application/json',
 					Authorization: `Bearer ${token}`,
 				},
 			};
@@ -61,7 +60,11 @@ export const updateProfile = createAsyncThunk(
 	}
 );
 
-const initialState = { loading: false, error: null, user: {} };
+const initialState = {
+	loading: false,
+	error: null,
+	user: { name: '', email: '' },
+};
 
 const profileSlice = createSlice({
 	name: 'profile',
