@@ -17,7 +17,7 @@ import {
 	AccountCircle,
 } from '@mui/icons-material';
 
-import Search from '../../styles/Search';
+import Search from './Search';
 import IconButton from '../../styles/IconButton';
 import StyledLink from '../../styles/StyledLink';
 

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -12,15 +12,16 @@ import {
 } from '@mui/material';
 
 import Product from '../components/products/Product';
-import { fetchProducts, selectAllProducts } from '../store/productsSlice';
+import { getProducts, selectAllProducts } from '../store/productsSlice';
 
 const Products = () => {
 	const { products, loading, error } = useSelector(selectAllProducts);
 	const dispatch = useDispatch();
+	const { searchQuery } = useParams();
 
 	useEffect(() => {
-		dispatch(fetchProducts());
-	}, [dispatch]);
+		dispatch(getProducts(searchQuery));
+	}, [dispatch, searchQuery]);
 
 	return (
 		<Container maxWidth='md' sx={{ margin: '50px auto', minHeight: '100vh' }}>

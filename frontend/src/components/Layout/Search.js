@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import { InputBase, styled, alpha } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 const Search = props => {
-	const Search = styled('div')(({ theme }) => ({
+	const searchInputRef = useRef();
+	const navigate = useNavigate();
+	const Search = styled('form')(({ theme }) => ({
 		flex: 0.5,
 		position: 'relative',
 		borderRadius: theme.shape.borderRadius,
@@ -25,7 +28,7 @@ const Search = props => {
 		},
 	}));
 
-	const SearchIconWrapper = styled('div')(({ theme }) => ({
+	const SearchIconWrapper = styled('button')(({ theme }) => ({
 		padding: theme.spacing(0, 2),
 		height: '100%',
 		position: 'absolute',
@@ -33,6 +36,10 @@ const Search = props => {
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
+		background: 'transparent',
+		color: 'white',
+		border: 'none',
+		cursor: 'pointer',
 	}));
 
 	const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -50,15 +57,27 @@ const Search = props => {
 		},
 	}));
 
+	const submitSearchHandler = event => {
+		event.preventDefault();
+
+		const searchQuery = searchInputRef.current.firstElementChild.value.trim();
+
+		if (searchQuery) {
+			navigate(`/search/${searchQuery}`);
+		} else {
+			navigate('/');
+		}
+	};
+
 	return (
-		<Search>
+		<Search onSubmit={submitSearchHandler}>
 			<SearchIconWrapper>
 				<SearchIcon />
 			</SearchIconWrapper>
 			<StyledInputBase
+				ref={searchInputRef}
 				placeholder='Search…'
 				inputProps={{ 'aria-label': 'search' }}
-				{...props}
 			/>
 		</Search>
 	);

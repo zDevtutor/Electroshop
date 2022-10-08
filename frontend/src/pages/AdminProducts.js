@@ -24,7 +24,7 @@ import {
 import { Add, Delete, Edit } from '@mui/icons-material';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProducts, selectAllProducts } from '../store/productsSlice';
+import { getProducts, selectAllProducts } from '../store/productsSlice';
 
 import { getUserInfo } from '../store/authSlice';
 import { useNavigate } from 'react-router-dom';
@@ -117,7 +117,7 @@ const AdminProducts = () => {
 
 		if (window.confirm('Are You Sure?')) {
 			dispatch(deleteProduct(productId)).then(() => {
-				dispatch(fetchProducts());
+				dispatch(getProducts());
 			});
 		}
 	};
@@ -126,7 +126,7 @@ const AdminProducts = () => {
 		if (!userInfo.isAdmin) {
 			navigate('/', { replace: true });
 		} else {
-			dispatch(fetchProducts());
+			dispatch(getProducts());
 		}
 	}, [dispatch, userInfo.isAdmin, navigate]);
 
