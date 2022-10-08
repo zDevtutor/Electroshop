@@ -28,6 +28,7 @@ const AdminProduct = () => {
 	const [countInStock, setCountInStock] = useState(product.countInStock);
 	const [description, setDescription] = useState(product.description);
 	const [uploading, setUploading] = useState(false);
+	const [message, setMessage] = useState('');
 
 	const disptach = useDispatch();
 	const { productId } = useParams();
@@ -35,17 +36,23 @@ const AdminProduct = () => {
 	const updateProductHandler = event => {
 		event.preventDefault();
 
-		disptach(
-			updateProduct({
-				id: productId,
-				name,
-				image,
-				brand,
-				price: +price,
-				countInStock: +countInStock,
-				description,
-			})
-		);
+		if (price < 0 || countInStock < 0) {
+			setMessage('Price and Count In Stock must be 0 and above');
+		} else {
+			disptach(
+				updateProduct({
+					id: productId,
+					name,
+					image,
+					brand,
+					price: +price,
+					countInStock: +countInStock,
+					description,
+				})
+			);
+
+			setMessage('');
+		}
 	};
 
 	const uploadImageHandler = async event => {
@@ -119,6 +126,7 @@ const AdminProduct = () => {
 						noValidate
 						sx={{ mt: 1 }}
 						onSubmit={updateProductHandler}>
+						{message && <Alert severity='error'>{message}</Alert>}
 						<TextField
 							margin='normal'
 							required
@@ -130,6 +138,7 @@ const AdminProduct = () => {
 							value={name}
 							onChange={e => setName(e.target.value)}
 						/>
+
 						<TextField
 							margin='normal'
 							required
