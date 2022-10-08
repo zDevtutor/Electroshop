@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
 	Typography,
 	List,
@@ -11,12 +11,13 @@ import {
 	Button,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCart } from '../../store/cartSlice';
+import { resetCart, selectCart } from '../../store/cartSlice';
 import { addNewOrder, selectOrder } from '../../store/orderSlice';
-import StyledLink from '../../styles/StyledLink';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Review = props => {
+	const [isHovered, setIsHovered] = useState(false);
+
 	const { cartItems, shippingAddress, paymentMethod } = useSelector(selectCart);
 	const { error } = useSelector(selectOrder);
 	const dispatch = useDispatch();
@@ -30,6 +31,14 @@ const Review = props => {
 
 	const taxPrice = 0.15 * totalItemsPrice;
 	const totalPrice = totalItemsPrice + shippingPrice + taxPrice;
+
+	const handleMouseEnter = () => {
+		setIsHovered(true);
+	};
+
+	const handleMouseLeave = () => {
+		setIsHovered(false);
+	};
 
 	const addDecimal = num => {
 		return (Math.round(num * 100) / 100).toFixed(2);
@@ -46,6 +55,7 @@ const Review = props => {
 				totalPrice,
 			})
 		).then(data => {
+			dispatch(resetCart());
 			navigate(`/orders/${data.payload._id}`);
 		});
 	};
@@ -71,9 +81,18 @@ const Review = props => {
 
 							<ListItemText
 								primary={
-									<StyledLink to={`/products/${item.product}`}>
+									<Link
+										onMouseEnter={handleMouseEnter}
+										onMouseLeave={handleMouseLeave}
+										style={{
+											color: 'inherit',
+											textDecoration: `${
+												isHovered ? 'underline' : props.textDecoration || 'none'
+											}`,
+										}}
+										to={`/products/${item.product}`}>
 										{item.name}
-									</StyledLink>
+									</Link>
 								}
 								secondary={`Qty: ${item.qty}`}
 							/>

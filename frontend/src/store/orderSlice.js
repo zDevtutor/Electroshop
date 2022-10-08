@@ -90,11 +90,37 @@ export const payOrder = createAsyncThunk(
 				},
 			};
 
-			const { data } = await axios.patch(
-				`/api/orders/${id}`,
+			const { data } = await axios.put(
+				`/api/orders/${id}/pay`,
 				paymentResult,
 				config
 			);
+
+			return data;
+		} catch (error) {
+			throw error.response.data.message || error.message;
+		}
+	}
+);
+
+export const deliverOrder = createAsyncThunk(
+	'order/deliverOrder',
+	async (id, { getState }) => {
+		try {
+			const {
+				auth: {
+					userInfo: { token },
+				},
+			} = getState();
+
+			const config = {
+				'Content-Type': 'application/json',
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			};
+
+			const { data } = await axios.put(`/api/orders/${id}/deliver`, {}, config);
 
 			return data;
 		} catch (error) {
@@ -135,17 +161,30 @@ const orderSlice = createSlice({
 			state.order = action.payload;
 		},
 		[getOrderDetails.rejected]: (state, action) => {
-			state.error = action.error.message;
 			state.loading = false;
+			state.error = action.error.message;
 		},
 		[payOrder.pending]: state => {
 			state.loading = true;
 		},
-		[payOrder.fulfilled]: state => {
+		[payOrder.fulfilled]: (state, action) => {
 			state.loading = false;
 			state.error = null;
+			state.order = action.payload;
 		},
 		[payOrder.rejected]: (state, action) => {
+			state.error = action.error.message;
+			state.loading = false;
+		},
+		[deliverOrder.pending]: state => {
+			state.loading = true;
+		},
+		[deliverOrder.fulfilled]: (state, action) => {
+			state.loading = false;
+			state.error = null;
+			state.order = action.payload;
+		},
+		[deliverOrder.rejected]: (state, action) => {
 			state.error = action.error.message;
 			state.loading = false;
 		},

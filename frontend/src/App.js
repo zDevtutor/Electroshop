@@ -15,6 +15,7 @@ import OrderDatails from './pages/OrderDetails';
 import Users from './pages/Users';
 import AdminProducts from './pages/AdminProducts';
 import AdminProduct from './pages/AdminProduct';
+import AdminOrders from './pages/AdminOrders';
 
 const App = () => {
 	return (
@@ -26,6 +27,7 @@ const App = () => {
 				<Route path='/products/:productId' element={<ProductDetail />} />
 				<Route path='/admin/products' element={<AdminProducts />} />
 				<Route path='/admin/products/:productId' element={<AdminProduct />} />
+				<Route path='/admin/orders' element={<AdminOrders />} />
 				<Route path='/cart/*' element={<Cart />} />
 				<Route path='/login' element={<Login />} />
 				<Route path='/register' element={<Register />} />

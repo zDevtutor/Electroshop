@@ -12,15 +12,22 @@ import {
 	Avatar,
 	ListItemText,
 	ListItemAvatar,
+	Button,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { getOrderDetails, payOrder, selectOrder } from '../store/orderSlice';
+import {
+	deliverOrder,
+	getOrderDetails,
+	payOrder,
+	selectOrder,
+} from '../store/orderSlice';
 import { useParams } from 'react-router-dom';
 import PaypalCheckoutButton from '../components/paypal/PaypalCheckoutButton';
-import { resetCart } from '../store/cartSlice';
+import { getUserInfo } from '../store/authSlice';
 
 const OrderDetails = () => {
 	const { order, loading, error } = useSelector(selectOrder);
+	const { userInfo } = useSelector(getUserInfo);
 	const dispatch = useDispatch();
 	const { orderId } = useParams();
 
@@ -46,8 +53,10 @@ const OrderDetails = () => {
 				},
 			})
 		);
+	};
 
-		dispatch(resetCart());
+	const deliverOrderHandler = () => {
+		dispatch(deliverOrder(orderId));
 	};
 
 	useEffect(() => {
@@ -116,7 +125,9 @@ const OrderDetails = () => {
 							<Alert
 								sx={{ marginTop: '15px' }}
 								severity={order.isDelivered ? 'success' : 'error'}>
-								{order.isDelivered ? 'Delivered' : 'Not Delivered'}
+								{order.isDelivered
+									? `Delivered At ${order.deliveredAt}`
+									: 'Not Delivered'}
 							</Alert>
 
 							<Typography
@@ -213,6 +224,16 @@ const OrderDetails = () => {
 										totalPrice={addDecimal(order.totalPrice)}
 										onSuccess={handleSuccess}
 									/>
+								</Box>
+							)}
+							{!order.isDelivered && userInfo.isAdmin && (
+								<Box sx={{ marginTop: '20px' }}>
+									<Button
+										variant='contained'
+										fullWidth
+										onClick={deliverOrderHandler}>
+										Mark As Delivered
+									</Button>
 								</Box>
 							)}
 						</Grid>
