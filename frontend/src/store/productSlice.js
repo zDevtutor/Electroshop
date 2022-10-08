@@ -95,6 +95,30 @@ export const updateProduct = createAsyncThunk(
 	}
 );
 
+export const addReview = createAsyncThunk(
+	'product/addReview',
+	async ({ productId, review }, { getState }) => {
+		try {
+			const {
+				auth: {
+					userInfo: { token },
+				},
+			} = getState();
+
+			const config = {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${token}`,
+				},
+			};
+
+			await axios.post(`/api/products/${productId}/review`, review, config);
+		} catch (error) {
+			throw error.response.data.message || error.message;
+		}
+	}
+);
+
 const initialState = {
 	product: {
 		name: '',
@@ -156,6 +180,17 @@ const productSlice = createSlice({
 			state.product = action.payload;
 		},
 		[updateProduct.rejected]: (state, action) => {
+			state.loading = false;
+			state.error = action.error.message;
+		},
+		[addReview.pending]: state => {
+			state.loading = true;
+		},
+		[addReview.fulfilled]: state => {
+			state.loading = false;
+			state.error = null;
+		},
+		[addReview.rejected]: (state, action) => {
 			state.loading = false;
 			state.error = action.error.message;
 		},
