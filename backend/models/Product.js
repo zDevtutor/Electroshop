@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const reviewSchema = require('./Review');
 
 const productSchema = mongoose.Schema(
 	{
@@ -10,7 +11,7 @@ const productSchema = mongoose.Schema(
 		image: {
 			type: String,
 			required: true,
-			default: '/images/sample.jpg',
+			default: '/uploads/sample.jpg',
 		},
 		description: {
 			type: String,
@@ -42,12 +43,7 @@ const productSchema = mongoose.Schema(
 			required: true,
 			default: 0,
 		},
-		reviews: [
-			{
-				type: mongoose.Schema.Types.ObjectId,
-				ref: 'Review',
-			},
-		],
+		reviews: [reviewSchema],
 	},
 	{
 		timestamps: true,
