@@ -5,7 +5,16 @@ const Product = require('../models/Product');
 // @route   GET /api/products
 // @access  Public
 exports.getProducts = asyncHandler(async (req, res) => {
-	const products = await Product.find({});
+	const searchQuery = req.query.keyword
+		? {
+				name: {
+					$regex: req.query.keyword,
+					$options: 'i',
+				},
+		  }
+		: {};
+
+	const products = await Product.find({ ...searchQuery });
 
 	res.json(products);
 });
@@ -70,8 +79,8 @@ exports.updateProduct = asyncHandler(async (req, res) => {
 });
 
 // @desc    Add Product Review
-// @route   PUT /api/products/:id
-// @access  Private/Admin
+// @route   POST /api/products/:id/review
+// @access  Private
 exports.addReview = asyncHandler(async (req, res) => {
 	const { rating, comment } = req.body;
 	const product = await Product.findById(req.params.id);
