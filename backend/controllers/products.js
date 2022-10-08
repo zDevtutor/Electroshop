@@ -58,7 +58,7 @@ exports.updateProduct = asyncHandler(async (req, res) => {
 	}
 
 	product.name = req.body.name || 'Sample Product';
-	product.image = req.body.image || '/images/sample.jpg';
+	product.image = req.body.image || '/uploads/sample.jpg';
 	product.description = req.body.description || 'Product Description';
 	product.brand = req.body.brand || 'Product Brand';
 	product.price = req.body.price || 0;
