@@ -4,9 +4,10 @@
 	"description": "An Ecommerce website created by zDevtutor",
 	"main": "app.js",
 	"scripts": {
-		"start": "nodemon app.js",
+		"start": "nodemon backend/app.js",
 		"data:import": "node seeder",
-		"data:destroy": "node seeder -d"
+		"data:destroy": "node seeder -d",
+		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
 	},
 	"author": "Mostafa Sayed",
 	"license": "ISC",
