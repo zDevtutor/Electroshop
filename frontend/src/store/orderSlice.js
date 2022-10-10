@@ -130,7 +130,13 @@ export const deliverOrder = createAsyncThunk(
 );
 
 const initialState = {
-	order: { shippingAddress: {}, orderItems: [], user: {} },
+	order: {
+		shippingAddress: {},
+		orderItems: [],
+		user: {},
+		isPaid: false,
+		isDelivered: false,
+	},
 	loading: false,
 	error: null,
 };

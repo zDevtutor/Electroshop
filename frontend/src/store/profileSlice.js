@@ -28,7 +28,7 @@ export const getProfile = createAsyncThunk(
 
 export const updateProfile = createAsyncThunk(
 	'profile/updateProfile',
-	async ({ name, email, password }, { getState }) => {
+	async ({ image, name, email, password }, { getState }) => {
 		try {
 			const {
 				auth: {
@@ -46,6 +46,7 @@ export const updateProfile = createAsyncThunk(
 			const { data } = await axios.put(
 				`/api/users/${_id}`,
 				{
+					image,
 					name,
 					email,
 					password,
@@ -63,7 +64,7 @@ export const updateProfile = createAsyncThunk(
 const initialState = {
 	loading: false,
 	error: null,
-	user: { name: '', email: '' },
+	user: { name: '', email: '', image: '' },
 };
 
 const profileSlice = createSlice({

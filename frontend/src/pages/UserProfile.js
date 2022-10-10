@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -25,10 +26,12 @@ const UserProfile = () => {
 	const { user, error, loading } = useSelector(getUserProfile);
 	const { userInfo } = useSelector(getUserInfo);
 	const dispatch = useDispatch();
+	const [image, setImage] = useState(user.image);
 	const [name, setName] = useState(user.name);
 	const [email, setEmail] = useState(user.email);
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
+	const [uploading, setUploading] = useState();
 	const [message, setMessage] = useState('');
 	const [isSubmitted, setIsSubmitted] = useState(false);
 	const navigate = useNavigate();
@@ -44,11 +47,34 @@ const UserProfile = () => {
 		} else if (password !== '' && password.length < 6) {
 			setMessage('Password Should be more than 6 characters');
 		} else {
-			dispatch(updateProfile({ name, email, password })).then(() => {
+			dispatch(updateProfile({ name, email, password, image })).then(() => {
 				setIsSubmitted(true);
 				setMessage('Profile Updated Successfully');
 				dispatch(updateUserInfo());
 			});
+		}
+	};
+
+	const uploadImageHandler = async event => {
+		const file = event.target.files[0];
+		const formData = new FormData();
+
+		formData.append('image', file);
+		setUploading(true);
+
+		try {
+			const config = {
+				header: {
+					'Content-Type': 'multipart/form-data',
+				},
+			};
+
+			const { data } = await axios.post('/api/uploads', formData, config);
+
+			setImage(`/${data}`);
+			setUploading(false);
+		} catch (error) {
+			setUploading(false);
 		}
 	};
 
@@ -59,9 +85,10 @@ const UserProfile = () => {
 			dispatch(getProfile()).then(() => {
 				setName(user.name);
 				setEmail(user.email);
+				setImage(user.image);
 			});
 		}
-	}, [userInfo, navigate, dispatch, user.name, user.email]);
+	}, [userInfo, navigate, dispatch, user.name, user.email, user.image]);
 
 	return (
 		<Container maxWidth='lg' sx={{ margin: '50px auto', minHeight: '65vh' }}>
@@ -100,6 +127,18 @@ const UserProfile = () => {
 							) : (
 								''
 							)}
+
+							<TextField
+								margin='normal'
+								required
+								fullWidth
+								type='file'
+								id='image'
+								name='image'
+								autoComplete='image'
+								onChange={uploadImageHandler}
+							/>
+							{uploading && <CircularProgress />}
 
 							<TextField
 								margin='normal'

@@ -36,6 +36,7 @@ const App = () => {
 				<Route path='/checkout' element={<Checkout />} />
 				<Route path='/orders/:orderId' element={<OrderDatails />} />
 				<Route path='/search/:searchQuery' element={<Products />} />
+				<Route path='/pages/:pageNumber' element={<Products />} />
 				<Route path='*' element={<Error404 />} />
 			</Routes>
 			<Footer />

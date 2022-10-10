@@ -9,12 +9,16 @@ import {
 	Menu,
 	MenuItem,
 	IconButton as Gravatar,
+	styled,
+	Avatar,
 } from '@mui/material';
 import {
 	ElectricBolt,
+	HowToReg,
+	KeyboardArrowDown,
+	Login,
 	Person,
 	ShoppingCart,
-	AccountCircle,
 } from '@mui/icons-material';
 
 import Search from './Search';
@@ -23,6 +27,15 @@ import StyledLink from '../../styles/StyledLink';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserInfo, logout } from '../../store/authSlice';
+
+const StyledGravatar = styled(Gravatar)(theme => ({
+	fontSize: '14px',
+	fontWeight: '700',
+	transition: 'all .3s ease',
+	'&:hover': {
+		borderRadius: '0',
+	},
+}));
 
 const Header = () => {
 	const theme = useTheme();
@@ -73,25 +86,63 @@ const Header = () => {
 						<IconButton startIcon={<ShoppingCart />}>
 							<StyledLink to='/cart'>Cart</StyledLink>
 						</IconButton>
-						<IconButton startIcon={<Person />}>
-							<StyledLink to='/login'>Login</StyledLink>
+
+						<IconButton
+							id='demo-customized-button'
+							aria-controls={
+								Boolean(anchorEl) ? 'demo-customized-menu' : undefined
+							}
+							aria-haspopup='true'
+							aria-expanded={Boolean(anchorEl) ? 'true' : undefined}
+							variant='contained'
+							disableElevation
+							onClick={handleMenu}
+							startIcon={<Person />}
+							endIcon={<KeyboardArrowDown />}>
+							Account
 						</IconButton>
+						<Menu
+							id='demo-customized-menu'
+							MenuListProps={{
+								'aria-labelledby': 'demo-customized-button',
+							}}
+							anchorEl={anchorEl}
+							open={Boolean(anchorEl)}
+							onClose={handleClose}>
+							<MenuItem onClick={handleClose} disableRipple>
+								<StyledLink to='/login'>
+									{' '}
+									<Login />
+									Login
+								</StyledLink>
+							</MenuItem>
+							<MenuItem onClick={handleClose} disableRipple>
+								<StyledLink to='/register'>
+									{' '}
+									<HowToReg />
+									Register
+								</StyledLink>
+							</MenuItem>
+						</Menu>
 					</Stack>
 				) : (
 					<div>
-						<Gravatar
+						<StyledGravatar
 							size='large'
 							aria-label='account of current user'
 							aria-controls='menu-appbar'
 							aria-haspopup='true'
-							sx={{ fontSize: '14px', fontWeight: '700' }}
 							onClick={handleMenu}
 							color='inherit'>
 							Welcome{' '}
 							{userInfo.name.slice(0, 1).toUpperCase() +
 								userInfo.name.slice(1).split(' ')[0]}
-							<AccountCircle sx={{ marginLeft: '10px' }} />
-						</Gravatar>
+							<Avatar
+								sx={{ marginLeft: '15px' }}
+								alt={userInfo.name}
+								src={userInfo.image}
+							/>
+						</StyledGravatar>
 						<Menu
 							id='menu-appbar'
 							anchorEl={anchorEl}

@@ -72,11 +72,7 @@ const ProductDetail = () => {
 							},
 						}}>
 						<Box sx={{ flex: 1 }}>
-							<Box
-								component='img'
-								src={product.image}
-								sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
-							/>
+							<Box component='img' src={product.image} sx={{ width: '100%' }} />
 						</Box>
 						<Box
 							sx={{
@@ -105,7 +101,7 @@ const ProductDetail = () => {
 								<Typography fontWeight={700} variant='span' component='span'>
 									Price:
 								</Typography>{' '}
-								${product.price}
+								${product.price.toFixed(2)}
 							</Typography>
 							<Divider sx={{ margin: '20px 0' }} />
 							<Typography variant='p' component='p'>
@@ -141,7 +137,7 @@ const ProductDetail = () => {
 									Price:
 								</Typography>
 								<Typography variant='span' component='span'>
-									${product.price}
+									${product.price.toFixed(2)}
 								</Typography>
 							</Box>
 							<Box
@@ -177,6 +173,7 @@ const ProductDetail = () => {
 						textAlign='center'
 						margin='auto'
 						direction='column'>
+						<Divider sx={{ marginTop: '20px' }} />
 						<ProductReview reviews={product.reviews} />
 					</Stack>
 				</>

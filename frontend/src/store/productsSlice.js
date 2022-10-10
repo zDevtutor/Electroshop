@@ -3,9 +3,11 @@ import axios from 'axios';
 
 export const getProducts = createAsyncThunk(
 	'products/getProducts',
-	async (searchQuery = '') => {
+	async ({ searchQuery = '', pageNumber = 1 }) => {
 		try {
-			const { data } = await axios.get(`/api/products?keyword=${searchQuery}`);
+			const { data } = await axios.get(
+				`/api/products?keyword=${searchQuery}&pageNumber=${pageNumber}`
+			);
 
 			return data;
 		} catch (error) {
@@ -30,7 +32,8 @@ const productsSlice = createSlice({
 		},
 		[getProducts.fulfilled]: (state, action) => {
 			state.loading = false;
-			state.products = action.payload;
+			state.products = action.payload.products;
+			state.pages = action.payload.pages;
 		},
 		[getProducts.rejected]: (state, action) => {
 			state.loading = false;

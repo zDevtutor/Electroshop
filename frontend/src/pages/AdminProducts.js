@@ -126,12 +126,12 @@ const AdminProducts = () => {
 		if (!userInfo.isAdmin) {
 			navigate('/', { replace: true });
 		} else {
-			dispatch(getProducts());
+			dispatch(getProducts({}));
 		}
 	}, [dispatch, userInfo.isAdmin, navigate]);
 
 	return (
-		<Container maxWidth='md' sx={{ margin: '50px auto', minHeight: '100vh' }}>
+		<Container maxWidth='lg' sx={{ margin: '50px auto', minHeight: '100vh' }}>
 			<Stack direction='row' alignItems='center' justifyContent='space-between'>
 				<Typography
 					variant='h2'
@@ -183,8 +183,12 @@ const AdminProducts = () => {
 														scope='row'>
 														#{product._id}
 													</TableCell>
-													<TableCell align='center'>{product.name}</TableCell>
-													<TableCell align='center'>${product.price}</TableCell>
+													<TableCell sx={{ width: '30%' }} align='center'>
+														{product.name}
+													</TableCell>
+													<TableCell align='center'>
+														${product.price.toFixed(2)}
+													</TableCell>
 													<TableCell align='center'>{product.brand}</TableCell>
 													<TableCell align='center'>
 														<Tooltip

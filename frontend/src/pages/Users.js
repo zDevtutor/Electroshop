@@ -107,7 +107,7 @@ const Users = () => {
 	}, [dispatch, userInfo.isAdmin, navigate]);
 
 	return (
-		<Container maxWidth='md' sx={{ margin: '50px auto', minHeight: '100vh' }}>
+		<Container maxWidth='lg' sx={{ margin: '50px auto', minHeight: '100vh' }}>
 			{loading && !error ? (
 				<Box
 					sx={{

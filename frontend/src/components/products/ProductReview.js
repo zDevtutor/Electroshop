@@ -17,16 +17,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUserInfo } from '../../store/authSlice';
 import { Link, useParams } from 'react-router-dom';
 import { addReview, getProduct } from '../../store/productSlice';
+import { selectOrders } from '../../store/ordersSlice';
 import Rating from './Rating';
 
 const ProductReview = ({ reviews }) => {
 	const [rating, setRating] = useState(0);
 	const [comment, setComment] = useState('');
 	const { userInfo } = useSelector(getUserInfo);
+	const { orders } = useSelector(selectOrders);
+
+	console.log(orders);
+
 	const dispatch = useDispatch();
 	const { productId } = useParams();
 
 	const alreadyReviewed = reviews.find(review => review.user === userInfo._id);
+
+	console.log(alreadyReviewed);
 
 	const review = {
 		rating,
@@ -100,9 +107,7 @@ const ProductReview = ({ reviews }) => {
 					</Link>{' '}
 					to add a review
 				</Alert>
-			) : alreadyReviewed ? (
-				''
-			) : (
+			) : !alreadyReviewed ? (
 				<Box
 					component='form'
 					noValidate
@@ -140,6 +145,8 @@ const ProductReview = ({ reviews }) => {
 						Add Review
 					</Button>
 				</Box>
+			) : (
+				''
 			)}
 		</Box>
 	);

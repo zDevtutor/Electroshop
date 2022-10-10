@@ -35,11 +35,16 @@ const ProductQty = ({ product, qty, setQty }) => {
 					value={qty}
 					label='Qty'
 					onChange={qtyChangeHandler}>
-					{[...Array(product.countInStock).keys()].map(x => (
+					{[...Array(product.countInStock).keys()].slice(0, 9).map(x => (
 						<MenuItem key={x} value={x + 1}>
 							{x + 1}
 						</MenuItem>
 					))}
+					{[...Array(product.countInStock).keys()].length >= 10 && (
+						<MenuItem key={10} value={10}>
+							10+
+						</MenuItem>
+					)}
 				</Select>
 			</FormControl>
 		</Box>

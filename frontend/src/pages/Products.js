@@ -13,15 +13,16 @@ import {
 
 import Product from '../components/products/Product';
 import { getProducts, selectAllProducts } from '../store/productsSlice';
+import Paginate from '../components/products/Paginate';
 
 const Products = () => {
-	const { products, loading, error } = useSelector(selectAllProducts);
+	const { products, loading, error, pages } = useSelector(selectAllProducts);
 	const dispatch = useDispatch();
-	const { searchQuery } = useParams();
+	const { searchQuery, pageNumber } = useParams();
 
 	useEffect(() => {
-		dispatch(getProducts(searchQuery));
-	}, [dispatch, searchQuery]);
+		dispatch(getProducts({ searchQuery, pageNumber }));
+	}, [dispatch, searchQuery, pageNumber]);
 
 	return (
 		<Container maxWidth='md' sx={{ margin: '50px auto', minHeight: '100vh' }}>
@@ -58,6 +59,7 @@ const Products = () => {
 					))}
 				</Grid>
 			)}
+			<Paginate pages={pages} searchQuery={searchQuery} />
 		</Container>
 	);
 };

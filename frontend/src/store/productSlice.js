@@ -123,6 +123,7 @@ const initialState = {
 	product: {
 		name: '',
 		brand: '',
+		image: '',
 		price: 0,
 		countInStock: 0,
 		description: '',

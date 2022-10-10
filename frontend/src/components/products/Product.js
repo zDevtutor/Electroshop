@@ -11,7 +11,17 @@ const Product = props => {
 		<StyledCard>
 			<CardMedia component='img' height='194' image={image} alt={name} />
 			<CardContent>
-				<Typography variant='h3' component='h3' fontSize={20}>
+				<Typography
+					sx={{
+						overflow: 'hidden',
+						textOverflow: 'ellipsis',
+						display: '-webkit-box',
+						WebkitLineClamp: '3',
+						WebkitBoxOrient: 'vertical',
+					}}
+					variant='h3'
+					component='h3'
+					fontSize={20}>
 					{name}
 				</Typography>
 				<Box
@@ -27,7 +37,7 @@ const Product = props => {
 					</Typography>
 				</Box>
 				<Typography variant='h4' component='h4' fontSize={24}>
-					${price}
+					${price.toFixed(2)}
 				</Typography>
 			</CardContent>
 		</StyledCard>

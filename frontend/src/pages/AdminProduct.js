@@ -22,7 +22,7 @@ import { useParams } from 'react-router-dom';
 const AdminProduct = () => {
 	const { product, loading, error } = useSelector(selectProduct);
 	const [name, setName] = useState(product.name);
-	const [image, setImage] = useState('');
+	const [image, setImage] = useState(product.image);
 	const [brand, setBrand] = useState(product.brand);
 	const [price, setPrice] = useState(product.price);
 	const [countInStock, setCountInStock] = useState(product.countInStock);
@@ -74,7 +74,6 @@ const AdminProduct = () => {
 			setImage(`/${data}`);
 			setUploading(false);
 		} catch (error) {
-			console.log(error);
 			setUploading(false);
 		}
 	};
@@ -84,6 +83,7 @@ const AdminProduct = () => {
 			setName(product.name);
 			setBrand(product.brand);
 			setPrice(product.price);
+			setImage(product.image);
 			setCountInStock(product.countInStock);
 			setDescription(product.description);
 		});
@@ -95,6 +95,7 @@ const AdminProduct = () => {
 		product.price,
 		product.countInStock,
 		product.description,
+		product.image,
 	]);
 
 	return (
