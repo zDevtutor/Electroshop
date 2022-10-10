@@ -17,6 +17,14 @@ const app = express();
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+if (process.env.NODE_ENV === 'production') {
+	app.use(express.static(path.join(__dirname, '..', 'frontend', 'build')));
+
+	app.get('/', (req, res) => {
+		res.sendFile(path.join(__dirname, '..', 'frontend', 'build', 'index.html'));
+	});
+}
+
 app.use('/api/products', productsRoute);
 app.use('/api/auth', authRoute);
 app.use('/api/users', usersRoute);
