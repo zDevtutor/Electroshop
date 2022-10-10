@@ -20,9 +20,8 @@ exports.getUserProfile = asyncHandler(async (req, res) => {
 // @route   PUT /api/users/:id
 // @access  Private
 exports.updateUserProfile = asyncHandler(async (req, res) => {
-	let { name, email, password } = req.body;
+	let { image, name, email, password } = req.body;
 
-	name = name.toLowerCase();
 	email = email.toLowerCase();
 
 	const user = await User.findById(req.user._id);
@@ -39,6 +38,7 @@ exports.updateUserProfile = asyncHandler(async (req, res) => {
 		throw new Error('Email Already Exist');
 	}
 
+	user.image = image || user.image;
 	user.name = name || user.name;
 	user.email = email || user.email;
 
@@ -50,6 +50,7 @@ exports.updateUserProfile = asyncHandler(async (req, res) => {
 
 	res.status(200).json({
 		_id: updatedUser._id,
+		image: updatedUser.image,
 		name: updatedUser.name,
 		email: updatedUser.email,
 		isAdmin: updatedUser.isAdmin,

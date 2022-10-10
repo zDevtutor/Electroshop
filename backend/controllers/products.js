@@ -5,6 +5,8 @@ const Product = require('../models/Product');
 // @route   GET /api/products
 // @access  Public
 exports.getProducts = asyncHandler(async (req, res) => {
+	const PAGE_SIZE = 6;
+	const page = Number(req.query.pageNumber) || 1;
 	const searchQuery = req.query.keyword
 		? {
 				name: {
@@ -14,9 +16,12 @@ exports.getProducts = asyncHandler(async (req, res) => {
 		  }
 		: {};
 
-	const products = await Product.find({ ...searchQuery });
+	const count = await Product.countDocuments({ ...searchQuery });
+	const products = await Product.find({ ...searchQuery })
+		.limit(PAGE_SIZE)
+		.skip(PAGE_SIZE * (page - 1));
 
-	res.json(products);
+	res.json({ products, pages: Math.ceil(count / PAGE_SIZE) });
 });
 
 // @desc    Fetch Single Product

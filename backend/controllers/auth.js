@@ -20,6 +20,7 @@ exports.login = asyncHandler(async (req, res) => {
 
 	res.json({
 		_id: user._id,
+		image: user.image,
 		name: user.name,
 		email: user.email,
 		isAdmin: user.isAdmin,
@@ -33,7 +34,6 @@ exports.login = asyncHandler(async (req, res) => {
 exports.register = asyncHandler(async (req, res) => {
 	let { name, email, password } = req.body;
 
-	name = name.toLowerCase();
 	email = email.toLowerCase();
 
 	const isUserExist = await User.findOne({ email });
@@ -59,6 +59,7 @@ exports.register = asyncHandler(async (req, res) => {
 	if (user) {
 		res.status(201).json({
 			_id: user._id,
+			image: user.image,
 			name: user.name,
 			email: user.email,
 			isAdmin: user.isAdmin,
