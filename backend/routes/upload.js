@@ -3,7 +3,7 @@ const router = require('express').Router();
 
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
-		cb(null, './uploads/');
+		cb(null, 'uploads');
 	},
 	filename: function (req, file, cb) {
 		cb(
@@ -35,7 +35,7 @@ router.post(
 	(req, res) => {
 		const fileUrl = req.file.path.replace(/\\/g, '/');
 
-		res.status(200).send(fileUrl);
+		res.status(200).send(`/${fileUrl}`);
 	}
 );
 
