@@ -8,7 +8,7 @@ import {
 	useTheme,
 	Menu,
 	MenuItem,
-	IconButton as Gravatar,
+	IconButton,
 	styled,
 	Avatar,
 } from '@mui/material';
@@ -22,13 +22,13 @@ import {
 } from '@mui/icons-material';
 
 import Search from './Search';
-import IconButton from '../../styles/IconButton';
+import StyledButton from '../../styles/StyledButton';
 import StyledLink from '../../styles/StyledLink';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserInfo, logout } from '../../store/authSlice';
 
-const StyledGravatar = styled(Gravatar)(theme => ({
+const Gravatar = styled(IconButton)(theme => ({
 	fontSize: '14px',
 	fontWeight: '700',
 	transition: 'all .3s ease',
@@ -83,11 +83,11 @@ const Header = () => {
 
 				{Object.keys(userInfo).length === 0 ? (
 					<Stack direction='row' spacing={2}>
-						<IconButton startIcon={<ShoppingCart />}>
+						<StyledButton startIcon={<ShoppingCart />}>
 							<StyledLink to='/cart'>Cart</StyledLink>
-						</IconButton>
+						</StyledButton>
 
-						<IconButton
+						<StyledButton
 							id='demo-customized-button'
 							aria-controls={
 								Boolean(anchorEl) ? 'demo-customized-menu' : undefined
@@ -100,7 +100,7 @@ const Header = () => {
 							startIcon={<Person />}
 							endIcon={<KeyboardArrowDown />}>
 							Account
-						</IconButton>
+						</StyledButton>
 						<Menu
 							id='demo-customized-menu'
 							MenuListProps={{
@@ -127,7 +127,7 @@ const Header = () => {
 					</Stack>
 				) : (
 					<div>
-						<StyledGravatar
+						<Gravatar
 							size='large'
 							aria-label='account of current user'
 							aria-controls='menu-appbar'
@@ -142,7 +142,7 @@ const Header = () => {
 								alt={userInfo.name}
 								src={userInfo.image}
 							/>
-						</StyledGravatar>
+						</Gravatar>
 						<Menu
 							id='menu-appbar'
 							anchorEl={anchorEl}
