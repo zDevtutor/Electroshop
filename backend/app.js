@@ -1,7 +1,6 @@
 const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv');
-const colors = require('colors');
 const mongoose = require('mongoose');
 const productsRoute = require('./routes/products');
 const authRoute = require('./routes/auth');
@@ -39,11 +38,8 @@ const PORT = process.env.PORT || 5000;
 mongoose
 	.connect(process.env.MONGO_URI)
 	.then(() => {
-		app.listen(
-			PORT,
-			console.log(`Server Is Running On Port ${PORT}`.yellow.bold)
-		);
+		app.listen(PORT, console.log(`Server Is Running On Port ${PORT}`));
 	})
 	.catch(err => {
-		console.log(`${err}`.red.bold);
+		console.log(`${err}`);
 	});
