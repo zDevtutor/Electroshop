@@ -16,6 +16,31 @@ export const getProducts = createAsyncThunk(
 	}
 );
 
+export const getAllProducts = createAsyncThunk(
+	'products/getAllProducts',
+	async (arg, { getState }) => {
+		try {
+			const {
+				auth: {
+					userInfo: { token },
+				},
+			} = getState();
+
+			const config = {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			};
+
+			const { data } = await axios.get(`/api/products/admin`, config);
+
+			return data;
+		} catch (error) {
+			throw error.response.data.message || error.message;
+		}
+	}
+);
+
 const initialState = {
 	products: [],
 	loading: false,
@@ -36,6 +61,17 @@ const productsSlice = createSlice({
 			state.pages = action.payload.pages;
 		},
 		[getProducts.rejected]: (state, action) => {
+			state.loading = false;
+			state.error = action.error.message;
+		},
+		[getAllProducts.pending]: state => {
+			state.loading = true;
+		},
+		[getAllProducts.fulfilled]: (state, action) => {
+			state.loading = false;
+			state.products = action.payload;
+		},
+		[getAllProducts.rejected]: (state, action) => {
 			state.loading = false;
 			state.error = action.error.message;
 		},
