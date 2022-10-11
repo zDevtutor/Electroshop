@@ -12,7 +12,7 @@ const { isAdmin } = require('../middleware/isAdmin');
 const { protect } = require('../middleware/protect');
 
 router.get('/', getProducts);
-router.get('/admin', protect, isAdmin, getAllProducts);
+router.get('/admin', getAllProducts);
 router.get('/:id', getProduct);
 router.delete('/:id', protect, isAdmin, deleteProduct);
 router.post('/', protect, isAdmin, addProduct);

@@ -2,9 +2,9 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import Header from './components/layout/Header';
+import Footer from './components/layout/Footer';
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
-import Footer from './components/layout/Footer';
 import Cart from './pages/Cart';
 import Login from './pages/Login';
 import Register from './pages/Register';

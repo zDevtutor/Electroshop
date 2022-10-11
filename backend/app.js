@@ -1,6 +1,7 @@
 const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv');
+const colors = require('colors');
 const mongoose = require('mongoose');
 const productsRoute = require('./routes/products');
 const authRoute = require('./routes/auth');
@@ -22,14 +23,6 @@ app.use('/api/users', usersRoute);
 app.use('/api/orders', orderRoute);
 app.use('/api/uploads', uploadRoute);
 
-if (process.env.NODE_ENV === 'production') {
-	app.use(express.static(path.join(__dirname, '..', 'frontend', 'build')));
-
-	app.get('*', (req, res) => {
-		res.sendFile(path.join(__dirname, '..', 'frontend', 'build', 'index.html'));
-	});
-}
-
 app.use(notFound);
 app.use(errorHandler);
 
@@ -38,8 +31,11 @@ const PORT = process.env.PORT || 5000;
 mongoose
 	.connect(process.env.MONGO_URI)
 	.then(() => {
-		app.listen(PORT, console.log(`Server Is Running On Port ${PORT}`));
+		app.listen(
+			PORT,
+			console.log(`Server Is Running On Port ${PORT}`.yellow.bold)
+		);
 	})
 	.catch(err => {
-		console.log(`${err}`);
+		console.log(`${err}`.red.bold);
 	});

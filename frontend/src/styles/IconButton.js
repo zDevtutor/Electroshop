@@ -2,7 +2,7 @@ import React from 'react';
 
 import { styled, Button } from '@mui/material';
 
-const IconButton = styled(Button)({
+const StyledButton = styled(Button)({
 	color: '#FFF',
 	border: '1px solid #FFF',
 	'&:hover': {
@@ -10,12 +10,12 @@ const IconButton = styled(Button)({
 	},
 });
 
-const StyledButton = props => {
+const IconButton = props => {
 	return (
-		<IconButton size='small' variant='outlined' {...props}>
+		<StyledButton size='small' variant='outlined' {...props}>
 			{props.children}
-		</IconButton>
+		</StyledButton>
 	);
 };
 
-export default StyledButton;
+export default IconButton;
