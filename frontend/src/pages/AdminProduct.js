@@ -71,7 +71,7 @@ const AdminProduct = () => {
 
 			const { data } = await axios.post('/api/uploads', formData, config);
 
-			setImage(`/${data}`);
+			setImage(data);
 			setUploading(false);
 		} catch (error) {
 			setUploading(false);
