@@ -8,7 +8,7 @@ View live project [here](https://elctroshop-ecommerce-app.herokuapp.com/)
 
 # [Table of Contents](#table-of-contents)
 
-1. [User Experience](<#user-experience(ux)>)
+1. [User Experience](#user-experience)
 
 - [User Stories](#user-stories)
 - [Design](#design)
@@ -33,7 +33,7 @@ View live project [here](https://elctroshop-ecommerce-app.herokuapp.com/)
 
 5. [Credits](#credits)
 
-# User Experience (UX)
+# User Experience
 
 ## User Stories
 
