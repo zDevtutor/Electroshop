@@ -29,9 +29,9 @@ View live project [here](https://elctroshop-ecommerce-app.herokuapp.com/)
 - [Back-End Technologies](#back-end-technologies)
 - [Database Schema](#database-schema)
 
-6. [Deployment](#deployment)
+4. [Deployment](#deployment)
 
-7. [Credits](#credits)
+5. [Credits](#credits)
 
 # User Experience (UX)
 
