@@ -16,29 +16,22 @@ View live project [here](https://elctroshop-ecommerce-app.herokuapp.com/)
   - [Typography](#typography)
   - [Imagery](#imagery)
 
-2. [Wireframes](#wireframes)
-3. [Features](#features)
+2. [Features](#features)
 
 - [Existing Features](#existing-features)
   - [Features On All Pages](#features-on-all-pages)
   - [Features Of Individual Pages](#features-of-individual-pages)
 - [Features Left To Implement](#features-left-to-implement)
 
-4. [Technologies Used](#technologies-used)
+3. [Technologies Used](#technologies-used)
 
 - [Front-End Technologies](#front-end-technologies)
 - [Back-End Technologies](#back-end-technologies)
-- [Other Tools](#other-tools)
 - [Database Schema](#database-schema)
 
-5. [Testing](#testing)
 6. [Deployment](#deployment)
 
-- [Local Deployment](#local-deployment)
-- [Remote Deployment](#remote-deployment)
-
 7. [Credits](#credits)
-8. [Acknowledgements](#acknowledgements)
 
 # User Experience (UX)
 
@@ -85,7 +78,7 @@ The primary font used is Roboto, using four different weights: 300,400,500,700
 
 ### Imagery
 
-Imagery is important to create an eye-catching site. There are images primarily on the products pages
+Imagery is important to create an eye-catching site. The images are primarily of products and are shown in the homepage and product details page.
 
 :arrow_up: [Back to top](#table-of-contents)
 
@@ -99,7 +92,7 @@ Imagery is important to create an eye-catching site. There are images primarily 
 
 - The responsive navigation bar contains three main sections. The first is the Electroshop logo
 - The second section is the search bar, where the user can search for products by their name.
-- The next section is the cart and My Account buttons where the user is able to login/register and navigate to the cart and view added products there.
+- The next section is the cart and My Account buttons where the user is able to login/register and navigate to the cart to view added products there.
 - For the logged in user the account and cart buttons will be changed to a gravatar with welcome user. It is clickable to get the cart, profile and logout. For the admin there will be 3 extra links which is products, orders, users to manage it all.
 
 #### Footer
@@ -110,19 +103,33 @@ Imagery is important to create an eye-catching site. There are images primarily 
 
 #### Home Page
 
-- The homepage contains a list of latest products with the navigation to easily navigate between listed products.
+- The homepage contains a list of latest products with the pagination to easily navigate between listed products.
+
+#### Product Details
+
+- This where all the product details are listed and gives the user the ability to add the product to cart plus adding a review.
 
 #### Profile Page
 
-- Users will be able to navigate to their Profile page via the navigation bar at the top of site. This page is where they will be able to update their profile details like their name, email and password as well as uploading profile image. Users will also be able to see an order history details. If they have made purchases. They will see the order is paid. If the order is delivered they will be able to see that as well.
+- Users will be able to navigate to their Profile page via the navigation bar at the top of site. This page is where they will be able to update their profile details like their name, email and password as well as uploading a profile image. Users will also be able to see an order history and has the option to view order details. If they have made purchases. They will see the order is paid. If the order is delivered they will see that as well.
+
+#### Cart
+
+- This were the user will be able to see all cart items and update any of the items easily before proceeding to checkout.
 
 #### Checkout
 
 - This is where the user will be able to confirm the shipping address, payment details and review the order. The user will be prompted to fill out their information to complete the order here. There will be two method of payment whether paypal or Stripe. I have implemented Paypal to manage payments and Stripe will be added later.
 
+#### Order Details
+
+- This is where all the order information are diplayed including whether the order is paid or delivered.
+
 ## Features Left To Implement
 
-- Add sorting of products
+- Add Email confirmation after signing up.
+- Add forget password functionality.
+- Allow users to sort products according to price, rating.
 - Add Stripe functionality to handle payment through stripe.
 - Social Media Login: Allowing users to log in with their Facebook or Google credentials.
 
@@ -135,6 +142,7 @@ Imagery is important to create an eye-catching site. There are images primarily 
 - [MUI](https://mui.com/)
 - [React JS](https://reactjs.org/)
 - [Redux Toolkit](https://redux-toolkit.js.org/) For State Managment.
+- [React Router DOM V6.4](https://reactrouter.com/en/main) For handling navigation
 - [Axios](https://axios-http.com/) For handling http requests
 - [@Paypal/react-paypal-js](https://www.npmjs.com/package/@paypal/react-paypal-js) For handling payment functionality
 
@@ -151,11 +159,7 @@ Imagery is important to create an eye-catching site. There are images primarily 
 
 ## Database Schema
 
-- Django makes use of the SQL Database,
-  - Throughout development, I used the SQLite Database.
-  - Once deployed, the database was moved over to PostgreSQL which was provided by Heroku.
-
-After careful consideration and taking into account all the different parts of the website and needs of the database, I designed the schema in the following sections/models:
+After careful consideration and taking into account all the different parts of the website and needs of the database, I designed the schema in the following models:
 
 - **User:** This includes all the details of the user (name, email, password, image) and isAdmin to define if the user is admin or not. This model is used for singing in/up and to display user details in profile page.
 
@@ -163,17 +167,34 @@ After careful consideration and taking into account all the different parts of t
 
 - **Product:** This includes all the information related to each product, including the product item price, image, name, descriptions, brand, count in stock and number of reviews.
 
-- **Review:** This review model used to display review rating, comment and name for paid and delivered products.
+- **Review:** This review model used to display review rating, name and comment for products that is unreviewed before.
 
 # Deployment
 
-1. Open up Heroku and log your account
-2. Create a new app, called electroshop-ecommerce-app.
-3. Install Heroku CLI and make sure git is already installed
-4. Under the ‘Resources’ tab, search for and add the ‘Heroku Postgress DB’ app
-5. In the project terminal, install `dj_database_url` and `psycopg2` by using the following commands:
+1.  Open up Heroku and log your account
+2.  Create a new app, called electroshop-ecommerce-app.
+3.  Install Heroku CLI and make sure git is already installed
+4.  Add Procfile into the root directory and add the command <code>web: node backend/app.js</code> in order to run the app.js file upon deployment.
+5.  Add heroku-postbuild script in package.json <code>"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"</code>
+6.  Change NODE_ENV value in .env file to production and add a little script in order to host build folder and index.html file in frontend
+    <pre>
+    <code>
+    if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(\_\_dirname, '..', 'frontend', 'build')));
+    
+            app.get('*', (req, res) => {
+            	res.sendFile(path.join(__dirname, '..', 'frontend', 'build', 'index.html'));
+            });
+        </code>
+        </pre>
 
-Tada! Now the site should be deployed!
+7.  Make sure you commit all changes made
+8.  Login to heroku through the terminal using <code>heroku login</code> command
+9.  Add project to remote repository on heroku <code>heroku git:remote -a electroshop-ecommerce-app</code>
+10. Push the project to heroku using <code>git push heroku main</code>
+11. Make sure to add all environment variables on order for the app to load fine. This can be done through settings/configure vars on heroku website.
+
+    Tada! Now the site should be deployed!
 
 :arrow_up: [Back to top](#table-of-contents)
 
@@ -181,35 +202,4 @@ Tada! Now the site should be deployed!
 
 ## Media
 
-- All of the Images were taken from [Unsplash](https://unsplash.com/)
-- The majority of the images were by [Joeyy Lee](https://unsplash.com/@joeyy_anne) and [Anna Elizabeth](https://unsplash.com/@shopannaelizabeth)
-
-## Code
-
-- Some sections of the code layout were taken from the [MDBoostrap design block page.](https://mdbootstrap.com/docs/standard/design-blocks/trending/)
-- The blog model and implementation was based on the [Django Girls Tutorial.](https://tutorial.djangogirls.org/en/)
-- The blog comments model and implementation was adapted from the [Django Girls Comment Extension Tutorial.](https://tutorial-extensions.djangogirls.org/en/homework_create_more_models)
-- The products and checkout sections of the course was adapted from the [Boutique Ado Mini Project](https://github.com/lucyrush/boutique_ado_v1) from the [Code Institute](https://codeinstitute.net/) Full Stack course.
-
-## Content
-
-- The product details were written by myself
-- The blog content was adapted from the [Gemologue by Liza Urla](https://gemologue.com/)
-
-# Acknowledgements
-
-(Prep for my Oscar Winning Speech)
-
-I would like to thank the [Code Institute](https://codeinstitute.net/) for allowing me to complete the course! It has been an amazing learning journey; tough, long but most importantly - INSPIRING!
-
-Special thanks to the wonderful team I work with in Student Care. Neil, Claire, and Mark, you guys are amazing and I could not have done it without you.
-
-A massive thanks is also owed to the fantastic Tutor Support for their help through the trickier parts of this project.
-
-Thanks to my fantastic mentor, Spencer Barriball for the help with the project too and for also introducing me to the power of Django that I cannot wait to learn more about.
-
-Lastly a big thanks to my partner, David, who would sit up on late nights with me and remind me that life does not have to be as stressful as we can make it to be.
-
-Now, for the big bottle of bubbles that is waiting to be popped!
-
-:arrow_up: [Back to top](#table-of-contents)
+- All of the product details including images were taken from [Amazon](https://amazon.com/) and [Best Buy](https://bestbuy.com/)
