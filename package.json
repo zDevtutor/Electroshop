@@ -6,8 +6,7 @@
 	"scripts": {
 		"start": "nodemon backend/app.js",
 		"data:import": "node seeder",
-		"data:destroy": "node seeder -d",
-		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend"
+		"data:destroy": "node seeder -d"
 	},
 	"author": "Mostafa Sayed",
 	"license": "ISC",

@@ -41,14 +41,10 @@ export const register = createAsyncThunk(
 	}
 );
 
-const userInfo = localStorage.getItem('userInfo')
-	? JSON.parse(localStorage.getItem('userInfo'))
-	: {};
-
 const initialState = {
 	loading: false,
 	error: null,
-	userInfo,
+	userInfo: {},
 };
 
 const authSlice = createSlice({
@@ -57,10 +53,9 @@ const authSlice = createSlice({
 	reducers: {
 		logout(state) {
 			state.userInfo = {};
-			localStorage.removeItem('userInfo');
 		},
-		updateUserInfo(state) {
-			state.userInfo = JSON.parse(localStorage.getItem('userInfo'));
+		updateUserInfo(state, action) {
+			state.userInfo = { ...state, ...action.payload };
 		},
 	},
 	extraReducers: {
@@ -72,8 +67,6 @@ const authSlice = createSlice({
 			state.error = null;
 
 			state.userInfo = action.payload;
-
-			localStorage.setItem('userInfo', JSON.stringify(state.userInfo));
 		},
 		[login.rejected]: (state, action) => {
 			state.loading = false;

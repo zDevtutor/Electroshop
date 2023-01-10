@@ -21,19 +21,7 @@ export const addCartItem = createAsyncThunk(
 	}
 );
 
-const cartItems = localStorage.getItem('cartItems')
-	? JSON.parse(localStorage.getItem('cartItems'))
-	: [];
-
-const shippingAddress = localStorage.getItem('shippingAddress')
-	? JSON.parse(localStorage.getItem('shippingAddress'))
-	: {};
-
-const paymentMethod = localStorage.getItem('paymentMethod')
-	? JSON.parse(localStorage.getItem('paymentMethod'))
-	: '';
-
-const initialState = { cartItems, shippingAddress, paymentMethod };
+const initialState = { cartItems: [], shippingAddress: '', paymentMethod: '' };
 
 const cartSlice = createSlice({
 	name: 'cart',
@@ -50,37 +38,21 @@ const cartSlice = createSlice({
 				state.cartItems = state.cartItems.map(item =>
 					item.product === existingItem.product ? existingItem : item
 				);
-
-				localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
 			}
 		},
 		removeCartItem(state, action) {
 			state.cartItems = state.cartItems.filter(
 				item => item.product !== action.payload.product
 			);
-
-			localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
 		},
 		saveShippingAddress(state, action) {
 			state.shippingAddress = action.payload;
-
-			localStorage.setItem(
-				'shippingAddress',
-				JSON.stringify(state.shippingAddress)
-			);
 		},
 		savePaymentMethod(state, action) {
 			state.paymentMethod = action.payload;
-
-			localStorage.setItem(
-				'paymentMethod',
-				JSON.stringify(state.paymentMethod)
-			);
 		},
 		resetCart(state) {
 			state.cartItems = [];
-
-			localStorage.removeItem('cartItems');
 		},
 	},
 	extraReducers: {
@@ -96,8 +68,6 @@ const cartSlice = createSlice({
 			} else {
 				state.cartItems.push(action.payload);
 			}
-
-			localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
 		},
 	},
 });

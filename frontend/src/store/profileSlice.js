@@ -89,8 +89,6 @@ const profileSlice = createSlice({
 			state.loading = false;
 			state.error = null;
 			state.user = action.payload;
-
-			localStorage.setItem('userInfo', JSON.stringify(state.user));
 		},
 		[updateProfile.rejected]: (state, action) => {
 			state.loading = false;

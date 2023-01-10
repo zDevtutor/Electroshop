@@ -50,7 +50,7 @@ const UserProfile = () => {
 			dispatch(updateProfile({ name, email, password, image })).then(() => {
 				setIsSubmitted(true);
 				setMessage('Profile Updated Successfully');
-				dispatch(updateUserInfo());
+				dispatch(updateUserInfo({ name, email, image }));
 			});
 		}
 	};
