@@ -55,7 +55,7 @@ const authSlice = createSlice({
 			state.userInfo = {};
 		},
 		updateUserInfo(state, action) {
-			state.userInfo = { ...state, ...action.payload };
+			state.userInfo = { ...state.userInfo, ...action.payload };
 		},
 	},
 	extraReducers: {

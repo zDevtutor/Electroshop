@@ -47,11 +47,15 @@ const UserProfile = () => {
 		} else if (password !== '' && password.length < 6) {
 			setMessage('Password Should be more than 6 characters');
 		} else {
-			dispatch(updateProfile({ name, email, password, image })).then(() => {
-				setIsSubmitted(true);
-				setMessage('Profile Updated Successfully');
-				dispatch(updateUserInfo({ name, email, image }));
-			});
+			dispatch(updateProfile({ name, email, password, image }))
+				.then(() => {
+					setIsSubmitted(true);
+					setMessage('Profile Updated Successfully');
+					dispatch(updateUserInfo({ name, email, image }));
+				})
+				.catch(error => {
+					setMessage(error);
+				});
 		}
 	};
 
