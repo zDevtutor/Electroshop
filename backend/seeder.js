@@ -1,6 +1,5 @@
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
-const colors = require('colors');
 const User = require('./models/User');
 const Product = require('./models/Product');
 const Order = require('./models/Order');
@@ -12,10 +11,10 @@ dotenv.config();
 mongoose
 	.connect(process.env.MONGO_URI)
 	.then(() => {
-		console.log('MongoDB Connected'.cyan.bold.underline);
+		console.log('MongoDB Connected');
 	})
 	.catch(err => {
-		console.log(`${err}`.red.bold);
+		console.log(`${err}`);
 	});
 
 const importData = async () => {
@@ -36,10 +35,10 @@ const importData = async () => {
 
 		await Product.insertMany(sampleProducts);
 
-		console.log('Data Imported!'.green.inverse);
+		console.log('Data Imported!');
 		process.exit();
 	} catch (error) {
-		console.error(`${error}`.red.inverse);
+		console.error(`${error}`);
 		process.exit(1);
 	}
 };
@@ -50,10 +49,10 @@ const destroyData = async () => {
 		await Product.deleteMany();
 		await Order.deleteMany();
 
-		console.log('Data Destroyed!'.red.inverse);
+		console.log('Data Destroyed!');
 		process.exit();
 	} catch (error) {
-		console.error(`${error}`.red.inverse);
+		console.error(`${error}`);
 		process.exit(1);
 	}
 };

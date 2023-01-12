@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const User = require('../models/User');
 const { generateToken } = require('../utils/generateToken');
+const cloudinary = require('../utils/cloudinary');
 
 // @desc    Get User Profile
 // @route   GET /api/users/:id
@@ -38,7 +39,14 @@ exports.updateUserProfile = asyncHandler(async (req, res) => {
 		throw new Error('Email Already Exist');
 	}
 
-	user.image = image || user.image;
+	if (image) {
+		const uploadRes = await cloudinary.uploader.upload(image, {
+			upload_preset: 'electroshop',
+		});
+
+		user.image = uploadRes || {};
+	}
+
 	user.name = name || user.name;
 	user.email = email || user.email;
 

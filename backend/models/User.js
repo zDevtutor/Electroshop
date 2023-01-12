@@ -9,8 +9,7 @@ const userSchema = mongoose.Schema(
 			maxlength: [50, 'Name can not be more than 50 characters'],
 		},
 		image: {
-			type: String,
-			default: '/uploads/user.jpg',
+			type: Object,
 		},
 		email: {
 			type: String,

@@ -9,7 +9,7 @@ const Product = props => {
 
 	return (
 		<StyledCard>
-			<CardMedia component='img' height='194' image={image} alt={name} />
+			<CardMedia component='img' height='194' image={image?.url} alt={name} />
 			<CardContent>
 				<Typography
 					sx={{

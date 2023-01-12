@@ -59,27 +59,25 @@ const UserProfile = () => {
 		}
 	};
 
-	const uploadImageHandler = async event => {
-		const file = event.target.files[0];
-		const formData = new FormData();
+	const transfromFile = file => {
+		const reader = new FileReader(); // gets a base64URL
 
-		formData.append('image', file);
-		setUploading(true);
-
-		try {
-			const config = {
-				header: {
-					'Content-Type': 'multipart/form-data',
-				},
+		if (file) {
+			reader.readAsDataURL(file);
+			reader.onloadend = () => {
+				setImage(reader.result);
+				setUploading(false);
 			};
-
-			const { data } = await axios.post('/api/uploads', formData, config);
-
-			setImage(data);
-			setUploading(false);
-		} catch (error) {
+		} else {
+			setImage('');
 			setUploading(false);
 		}
+	};
+
+	const uploadImageHandler = async event => {
+		const file = event.target.files[0];
+
+		transfromFile(file);
 	};
 
 	useEffect(() => {
@@ -138,6 +136,7 @@ const UserProfile = () => {
 								fullWidth
 								type='file'
 								id='image'
+								inputProps={{ accept: 'image/*' }}
 								name='image'
 								autoComplete='image'
 								onChange={uploadImageHandler}

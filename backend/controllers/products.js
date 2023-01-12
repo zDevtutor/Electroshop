@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const Product = require('../models/Product');
+const cloudinary = require('../utils/cloudinary');
 
 // @desc    Get Products
 // @route   GET /api/products
@@ -74,18 +75,26 @@ exports.addProduct = asyncHandler(async (req, res) => {
 // @access  Private/Admin
 exports.updateProduct = asyncHandler(async (req, res) => {
 	const product = await Product.findById(req.params.id);
+	const { name, image, description, brand, price, countInStock } = req.body;
 
 	if (!product) {
 		res.status(404);
 		throw new Error('Product is not found');
 	}
 
-	product.name = req.body.name || 'Sample Product';
-	product.image = req.body.image || '/uploads/sample.jpg';
-	product.description = req.body.description || 'Product Description';
-	product.brand = req.body.brand || 'Product Brand';
-	product.price = req.body.price || 0;
-	product.countInStock = req.body.countInStock || 0;
+	if (image) {
+		const uploadRes = await cloudinary.uploader.upload(image, {
+			upload_preset: 'electroshop',
+		});
+
+		product.image = uploadRes || {};
+	}
+
+	product.name = name || 'Sample Product';
+	product.description = description || 'Product Description';
+	product.brand = brand || 'Product Brand';
+	product.price = price || 0;
+	product.countInStock = countInStock || 0;
 
 	const updatedProduct = await product.save();
 

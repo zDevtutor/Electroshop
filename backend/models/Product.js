@@ -9,9 +9,9 @@ const productSchema = mongoose.Schema(
 			default: 'Sample Product',
 		},
 		image: {
-			type: String,
+			type: Object,
 			required: true,
-			default: '/uploads/sample.jpg',
+			default: {},
 		},
 		description: {
 			type: String,
