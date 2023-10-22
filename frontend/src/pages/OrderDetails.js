@@ -164,7 +164,7 @@ const OrderDetails = () => {
 									order.orderItems.map(item => (
 										<ListItem key={item.product} sx={{ py: 1, px: 0 }}>
 											<ListItemAvatar>
-												<Avatar alt={item.name} src={item.image} />
+												<Avatar alt={item.name} src={item.image.url} />
 											</ListItemAvatar>
 
 											<ListItemText

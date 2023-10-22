@@ -72,7 +72,11 @@ const ProductDetail = () => {
 							},
 						}}>
 						<Box sx={{ flex: 1 }}>
-							<Box component='img' src={product.image} sx={{ width: '100%' }} />
+							<Box
+								component='img'
+								src={product.image.url}
+								sx={{ width: '100%' }}
+							/>
 						</Box>
 						<Box
 							sx={{
