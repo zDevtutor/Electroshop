@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/main.631a0870.css","mappings":"AAAA,iBAKC,qBAAsB,CAFtB,QAAS,CACT,SAED,CAEA,KACC,6BACD","sources":["index.css"],"sourcesContent":["*,\n*::before,\n*::after {\n\tmargin: 0;\n\tpadding: 0;\n\tbox-sizing: border-box;\n}\n\nbody {\n\tfont-family: 'Roboto', sans-serif;\n}\n"],"names":[],"sourceRoot":""}
