@@ -1,10 +1,10 @@
 <h1 align=center id=top>Electroshop</h1>
 
-Electroshop is a fullstack ecommerce application build on the MERN stack and has been designed with simplicity in mind using MUI Components.
+Electroshop is a fullstack ecommerce application built on the MERN stack and has been designed with simplicity in mind using MUI Components.
 
-![Responsive Layout](/uploads/responsive-layout.png)
+![Responsive Layout](/uploads/final-screenshot.png)
 
-View live project [here](https://elctroshop-ecommerce-app.herokuapp.com/)
+View live project [here](https://electroshop-dkjl.onrender.com/)
 
 # [Table of Contents](#table-of-contents)
 
@@ -171,28 +171,9 @@ After careful consideration and taking into account all the different parts of t
 
 # Deployment
 
-1.  Open up Heroku and log your account
-2.  Create a new app, called electroshop-ecommerce-app.
-3.  Install Heroku CLI and make sure git is already installed
-4.  Add Procfile into the root directory and add the command <code>web: node backend/app.js</code> in order to run the app.js file upon deployment.
-5.  Add heroku-postbuild script in package.json <code>"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"</code>
-6.  Change NODE_ENV value in .env file to production and add a little script in order to host build folder and index.html file in frontend
-    <pre>
-    <code>
-    if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(\_\_dirname, '..', 'frontend', 'build')));
-    
-            app.get('*', (req, res) => {
-            	res.sendFile(path.join(__dirname, '..', 'frontend', 'build', 'index.html'));
-            });
-        </code>
-        </pre>
-
-7.  Make sure you commit all changes made
-8.  Login to heroku through the terminal using <code>heroku login</code> command
-9.  Add project to remote repository on heroku <code>heroku git:remote -a electroshop-ecommerce-app</code>
-10. Push the project to heroku using <code>git push heroku main</code>
-11. Make sure to add all environment variables on order for the app to load fine. This can be done through settings/configure vars on heroku website.
+1.  Open up Render and log your account
+3.  Create a new web service, called electroshop, and connect to the project GitHub repository.
+4. Make sure to add all environment variables on order for the app to load fine. This can be done through the Environment tab when selecting the project on the Render website.
 
     Tada! Now the site should be deployed!
 
