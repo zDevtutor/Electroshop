@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -87,10 +86,9 @@ const UserProfile = () => {
 			dispatch(getProfile()).then(() => {
 				setName(user.name);
 				setEmail(user.email);
-				setImage(user.image);
 			});
 		}
-	}, [userInfo, navigate, dispatch, user.name, user.email, user.image]);
+	}, [userInfo, navigate, dispatch, user.name, user.email]);
 
 	return (
 		<Container maxWidth='lg' sx={{ margin: '50px auto', minHeight: '65vh' }}>

@@ -45,7 +45,7 @@ const CartItem = ({ item }) => {
 			}}>
 			<Box
 				component='img'
-				src={item.image}
+				src={item.image.url}
 				alt={item.name}
 				sx={{
 					width: '20%',
